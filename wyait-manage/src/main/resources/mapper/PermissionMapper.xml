@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wyait.manage.dao.PermissionMapper" >
+  <resultMap id="BaseResultMap" type="com.wyait.manage.pojo.Permission" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="pid" property="pid" jdbcType="INTEGER" />
+    <result column="zindex" property="zindex" jdbcType="INTEGER" />
+    <result column="istype" property="istype" jdbcType="INTEGER" />
+    <result column="descpt" property="descpt" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="page" property="page" jdbcType="VARCHAR" />
+    <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, pid, zindex, istype, descpt, code, icon, page, insert_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from permission
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from permission
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wyait.manage.pojo.Permission" >
+    insert into permission (id, name, pid, 
+      zindex, istype, descpt, 
+      code, icon, page, insert_time, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER}, 
+      #{zindex,jdbcType=INTEGER}, #{istype,jdbcType=INTEGER}, #{descpt,jdbcType=VARCHAR}, 
+      #{code,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{page,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wyait.manage.pojo.Permission" >
+    insert into permission
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="pid != null" >
+        pid,
+      </if>
+      <if test="zindex != null" >
+        zindex,
+      </if>
+      <if test="istype != null" >
+        istype,
+      </if>
+      <if test="descpt != null" >
+        descpt,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="icon != null" >
+        icon,
+      </if>
+      <if test="page != null" >
+        page,
+      </if>
+      <if test="insertTime != null" >
+        insert_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="zindex != null" >
+        #{zindex,jdbcType=INTEGER},
+      </if>
+      <if test="istype != null" >
+        #{istype,jdbcType=INTEGER},
+      </if>
+      <if test="descpt != null" >
+        #{descpt,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="page != null" >
+        #{page,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wyait.manage.pojo.Permission" >
+    update permission
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        pid = #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="zindex != null" >
+        zindex = #{zindex,jdbcType=INTEGER},
+      </if>
+      <if test="istype != null" >
+        istype = #{istype,jdbcType=INTEGER},
+      </if>
+      <if test="descpt != null" >
+        descpt = #{descpt,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="page != null" >
+        page = #{page,jdbcType=VARCHAR},
+      </if>
+      <if test="insertTime != null" >
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wyait.manage.pojo.Permission" >
+    update permission
+    set name = #{name,jdbcType=VARCHAR},
+      pid = #{pid,jdbcType=INTEGER},
+      zindex = #{zindex,jdbcType=INTEGER},
+      istype = #{istype,jdbcType=INTEGER},
+      descpt = #{descpt,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      page = #{page,jdbcType=VARCHAR},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--=Start findAll 查找所有权限-->
+  <select id="findAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from permission
+    ORDER BY zindex
+  </select>
+  <!--=End findAll 查找所有权限-->
+
+  <!--=Start findChildPerm 查找所有子节点权限-->
+  <select id="findChildPerm" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from permission
+    where pid=#{pid}
+  </select>
+  <!--=End findChildPerm 查找所有子节点权限-->
+
+  <!--=Start findPerms 查找权限树列表-->
+  <resultMap id="findPermission" type="com.wyait.manage.entity.PermissionVO">
+    <id property="id" column="id"/>
+    <result property="name" column="name"/>
+    <result property="pid" column="pid"/>
+    <result property="istype" column="istype"/>
+    <result property="code" column="code"/>
+    <result property="page" column="page"/>
+
+    <collection property="children" column="pid" ofType="com.wyait.manage.pojo.Permission">
+      <id property="id" column="id"/>
+      <result property="name" column="name"/>
+      <result property="pid" column="pid"/>
+      <result property="istype" column="istype"/>
+      <result property="code" column="code"/>
+      <result property="page" column="page"/>
+    </collection>
+  </resultMap>
+
+  <sql id="PermColumn" >
+    id, name,pid pId, zindex, istype, code, icon, page
+  </sql>
+  <!--=Start findPerms 查找权限树列表-->
+  <select id="findPerms" resultType="com.wyait.manage.entity.PermissionVO">
+    select
+    <include refid="PermColumn" />
+    from permission
+  </select>
+  <!--=End findPerms 查找权限树列表-->
+  <!--=Start findPermsByRole 根据角色ID查找权限树列表-->
+  <select id="findPermsByRole" resultType="com.wyait.manage.pojo.Permission">
+    select
+    <include refid="PermColumn" />
+    from permission p
+    LEFT JOIN role_permission rp ON rp.permit_id=p.id
+    WHERE rp.role_id=#{roleId}
+  </select>
+  <!--=End findPermsByRole 根据角色ID查找权限树列表-->
+  <!--=Start getUserPerms 根据用户ID查找权限树列表-->
+  <select id="getUserPerms" resultType="com.wyait.manage.entity.PermissionVO">
+    select
+    p.id, p.name,p.pid pId, p.zindex, p.istype, p.code, p.icon, p.page
+    from permission p
+    LEFT JOIN role_permission rp ON rp.permit_id=p.id
+    LEFT JOIN role r ON r.id=rp.role_id
+    LEFT JOIN user_role ur ON ur.role_id=r.id
+    WHERE ur.user_id=#{userId}
+    GROUP BY p.id
+    order by p.zindex
+  </select>
+  <!--=End getUserPerms 根据用户ID查找权限树列表-->
+</mapper>

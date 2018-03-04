@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='favorites'"></head>
+<body>
+    <section th:fragment="authorize">
+        <div class="layui-body">
+
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>开通权限</legend>
+        </fieldset>
+
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="请输入名称" class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">编号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="code" lay-verify="required" placeholder="请输入编号，用于权限校验时使用；比如：adduser:添加用户权限" autocomplete="off" class="layui-input"/>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">权限类型</label>
+                <div class="layui-input-block">
+                    <select name="istype" lay-filter="aihao">
+                        <option value="0">菜单</option>
+                        <option value="1">功能</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">访问路径</label>
+                <div class="layui-input-block">
+                    <input type="text" name="page" lay-verify="required" placeholder="请输入访问菜单路径；权限类型为：“功能”；可不填写" autocomplete="off" class="layui-input"/>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">优先级</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="zindex" lay-verify="required|phone" autocomplete="off" class="layui-input"/>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">图标名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="icon" lay-verify="email" autocomplete="off" class="layui-input"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">描述</label>
+                <div class="layui-input-block">
+                    <textarea name="descpt" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <!--<div class="layui-form-item layui-form-text">
+              <label class="layui-form-label">编辑器</label>
+              <div class="layui-input-block">
+                <textarea class="layui-textarea layui-hide" name="content" lay-verify="content" id="LAY_demo_editor"></textarea>
+              </div>
+            </div>-->
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+            <script src="../layui/layui.js"></script>
+        <!--<script src="//res.layui.com/layui/dist/layui.js" charset="utf-8"></script>-->
+        <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+        <script type='text/javascript'>
+            layui.use('form', function(){
+                var form = layui.form;
+                form.render();
+            });
+        </script>
+        </div>
+    </section>
+</body>
+<script type='text/javascript'>
+</script>
+</html>

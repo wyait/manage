@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="/js/ztree/css/zTreeStyle/zTreeStyle.css"></link>
+<head th:include="layout :: htmlhead" th:with="title='角色管理'"></head>
+<script type="text/javascript" src="/js/dateUtils.js"></script>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头-->
+    <div th:replace="fragments/head :: header"></div>
+    <div class="layui-body">
+        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+            <ul class="layui-tab-title">
+                <li id="roleListLi" class="layui-this">角色列表</li>
+                <li id="setRoleLi">开通角色</li>
+                <li id="updateRoleLi" style="display:none;">更新角色</li>
+            </ul>
+            <div class="layui-tab-content" style="height: 100px;">
+                <div id="roleListDiv" class="layui-tab-item layui-show">
+                    <div th:include="auth/roleList :: roleList"></div>
+                </div>
+                <div id="setRoleDiv" class="layui-tab-item">
+                    <div th:include="auth/role :: role"></div>
+                </div>
+                <div  id="updateRoleDiv" class="layui-tab-item" style="display:none;">
+                    <div th:include="auth/roleUpdate :: updateRole"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--底部-->
+    <div th:replace="fragments/footer :: footer"></div>
+    <script src="/js/auth/roleManage.js"></script>
+    <script th:inline="javascript">
+        var flag=/*[[${flag==null ?'':flag}]]*/;
+    </script>
+</div>
+</body>
+</html>

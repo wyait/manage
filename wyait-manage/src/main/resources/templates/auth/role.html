@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="role">
+
+    <form id="roleForm" class="layui-form" action="=" method="post">
+        <input type="hidden" id="permIds" name="permIds"/>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">角色名称：</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="roleName" lay-verify="required" autocomplete="off" class="layui-input"/>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">角色编号：</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="code" lay-verify="required" autocomplete="off" class="layui-input"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色描述：</label>
+            <div class="layui-input-block">
+                <input type="text" name="descpt" lay-verify="" placeholder="" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限：</label>
+            <div class="layui-input-block">
+                <ul id="perm"></ul>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit="" lay-filter="roleSubmit">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+    <script src="/js/auth/role.js"></script>
+
+</div>
+</body>
+</html>

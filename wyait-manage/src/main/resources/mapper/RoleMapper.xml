@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wyait.manage.dao.RoleMapper" >
+  <resultMap id="BaseResultMap" type="com.wyait.manage.pojo.Role" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="descpt" property="descpt" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="insert_uid" property="insertUid" jdbcType="INTEGER" />
+    <result column="insert_time" property="insertTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, role_name, descpt, code, insert_uid, insert_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from role
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from role
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.wyait.manage.pojo.Role" >
+    insert into role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="roleName != null" >
+        role_name,
+      </if>
+      <if test="descpt != null" >
+        descpt,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="insertUid != null" >
+        insert_uid,
+      </if>
+      <if test="insertTime != null" >
+        insert_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="roleName != null" >
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="descpt != null" >
+        #{descpt,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="insertUid != null" >
+        #{insertUid,jdbcType=INTEGER},
+      </if>
+      <if test="insertTime != null" >
+        #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wyait.manage.pojo.Role" >
+    update role
+    <set >
+      <if test="roleName != null" >
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="descpt != null" >
+        descpt = #{descpt,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="insertUid != null" >
+        insert_uid = #{insertUid,jdbcType=INTEGER},
+      </if>
+      <if test="insertTime != null" >
+        insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wyait.manage.pojo.Role" >
+    update role
+    set role_name = #{roleName,jdbcType=VARCHAR},
+      descpt = #{descpt,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      insert_uid = #{insertUid,jdbcType=INTEGER},
+      insert_time = #{insertTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.wyait.manage.pojo.Role" >
+    insert into role (id, role_name, descpt,
+    code, insert_uid, insert_time,
+    update_time)
+    values (#{id,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR}, #{descpt,jdbcType=VARCHAR},
+    #{code,jdbcType=VARCHAR}, #{insertUid,jdbcType=INTEGER}, #{insertTime,jdbcType=TIMESTAMP},
+    #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <!--=Start findList 分页查询角色列表-->
+  <select id="findList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from role
+  </select>
+  <!--=End findList 分页查询角色列表-->
+
+  <!--=Start findRoleAndPerms 查询角色列表-->
+  <resultMap id="rolePerms" type="com.wyait.manage.entity.RoleVO" >
+    <id column="id" property="id" />
+    <result column="role_name" property="roleName"/>
+    <result column="code" property="code"/>
+    <result column="descpt" property="descpt"/>
+    <result column="insert_uid" property="insertUid"/>
+    <result column="insert_time" property="insertTime"/>
+    <collection property="rolePerms" ofType="com.wyait.manage.pojo.RolePermissionKey">
+      <result  column="role_id" property="roleId"/>
+      <result column="permit_id" property="permitId"/>
+    </collection>
+  </resultMap>
+
+  <select id="findRoleAndPerms" resultMap="rolePerms">
+    select
+    r.*,rp.role_id,rp.permit_id
+    from role r
+    INNER JOIN role_permission rp ON r.id=rp.role_id
+    WHERE r.id=#{id}
+  </select>
+  <!--=End findRoleAndPerms 查询角色列表-->
+
+  <!--=Start getRoleByUserId 根据用户id查询角色数据-->
+  <select id="getRoleByUserId" resultType="Role">
+    select
+    ur.role_id id,r.role_name,r.code
+    from user_role ur
+    INNER JOIN role r ON r.id=ur.role_id
+    WHERE ur.user_id=#{userId}
+  </select>
+  <!--=End getRoleByUserId 根据用户id查询角色数据-->
+
+  <!--=Start getRoles 查询角色列表-->
+  <select id="getRoles" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from role
+  </select>
+  <!--=End getRoles 查询角色列表-->
+</mapper>
