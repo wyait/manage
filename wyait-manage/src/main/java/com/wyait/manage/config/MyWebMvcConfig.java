@@ -2,7 +2,7 @@ package com.wyait.manage.config;
 
 /**
  * 
- * @项目名称：lyd-channel
+ * @项目名称：wyait-manage
  * @类名称：MyWebMvcConfig
  * @类描述：自定义静态资源映射路径和静态资源存放路径
  * @创建人：wyait

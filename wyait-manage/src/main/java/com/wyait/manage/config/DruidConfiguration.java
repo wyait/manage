@@ -12,7 +12,7 @@ import java.util.Map;
 
 /**
  *
- * @项目名称：lyd-channel
+ * @项目名称：wyait-manage
  * @类名称：DruidConfiguration
  * @类描述：Druid监控servelet和filter配置
  * @创建人：wyait

@@ -23,8 +23,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * @项目名称：lyd-channel
- * @包名：com.lyd.channel.config
+ * @项目名称：wyait-manage
+ * @包名：com.wyait.manage.config
  * @类描述：
  * @创建人：wyait
  * @创建时间：2017-12-12 18:51

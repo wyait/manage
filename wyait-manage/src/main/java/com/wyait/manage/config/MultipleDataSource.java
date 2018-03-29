@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * @项目名称：lyd-channel
+ * @项目名称：wyait-manage
  * @类名称：MultipleDataSource
  * @类描述：创建多数据源注册到Spring中
 		     接口：BeanDefinitionRegistryPostProcessor只要是注入bean,
