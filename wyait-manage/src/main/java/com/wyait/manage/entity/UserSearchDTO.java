@@ -2,7 +2,7 @@ package com.wyait.manage.entity;
 
 /**
  * @项目名称：wyait-manage
- * @包名：com.lyd.channel.entity
+ * @包名：com.wyait.manage.entity
  * @类描述：
  * @创建人：wyait
  * @创建时间：2018-01-02 17:10

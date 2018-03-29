@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @项目名称：wyait-manage
- * @包名：com.lyd.channel.config
+ * @包名：com.wyait.manage.config
  * @类描述：
  * @创建人：wyait
  * @创建时间：2018-01-11 9:13

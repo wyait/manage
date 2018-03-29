@@ -10,8 +10,8 @@ import org.apache.shiro.cache.CacheManager;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @项目名称：lyd-channel
- * @包名：com.lyd.channel.shiro
+ * @项目名称：wyait-manage
+ * @包名：com.wyait.manage.shiro
  * @类描述：shiro之密码输入次数限制6次，并锁定2分钟
  * @创建人：wyait
  * @创建时间：2018年1月23日17:23:10

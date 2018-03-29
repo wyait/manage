@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * @项目名称：wyait-manage
- * @包名：com.lyd.channel.controller.auth
+ * @包名：com.wyait.manage.web.user
  * @类描述：
  * @创建人：wyait
  * @创建时间：2017-12-20 15:42

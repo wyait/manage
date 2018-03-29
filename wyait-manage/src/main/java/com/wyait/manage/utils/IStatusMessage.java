@@ -1,7 +1,7 @@
 package com.wyait.manage.utils;
 
 /**
- * @项目名称： lyd-channel
+ * @项目名称： wyait-manage
  * @类名称： IStatusMessage
  * @类描述：响应状态信息
  * @创建时间： 2018年1月4日11:04:17

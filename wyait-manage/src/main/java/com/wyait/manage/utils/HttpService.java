@@ -31,7 +31,7 @@ import java.util.Map;
 
 /**
  *
- * @项目名称：wupao-common
+ * @项目名称：common
  * @类名称：ApiService
  * @类描述：负责和外部接口对接，发起http请求
  * @创建人：wyait

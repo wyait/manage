@@ -5,8 +5,8 @@ import com.wyait.manage.pojo.RolePermissionKey;
 import java.util.List;
 
 /**
- * @项目名称：lyd-channel
- * @包名：com.lyd.channel.entity
+ * @项目名称：wyait-manage
+ * @包名：com.wyait.manage.entity
  * @类描述：
  * @创建人：wyait
  * @创建时间：2017-12-28 19:57

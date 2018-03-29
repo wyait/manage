@@ -7,8 +7,8 @@ import com.wyait.manage.pojo.User;
 import com.wyait.manage.utils.PageDataResult;
 
 /**
- * @项目名称：lyd-channel
- * @包名：com.lyd.channel.service
+ * @项目名称：wyait-manage
+ * @包名：com.wyait.manage.service
  * @类描述：
  * @创建人：wyait
  * @创建时间：2017-12-20 15:52

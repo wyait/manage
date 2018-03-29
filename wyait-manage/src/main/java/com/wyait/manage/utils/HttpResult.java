@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * 
- * @项目名称：wupao-common
+ * @项目名称：common
  * @类名称：HttpResult
  * @类描述：客户端：封装接收到的http请求返回结果
  * @创建人：wyait 
