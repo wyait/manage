@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2018-03-04 15:39:24
+Date: 2018-04-22 21:19:39
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -46,9 +46,8 @@ INSERT INTO `permission` VALUES ('6', '渠道管理', '0', '200', '0', '渠道�
 INSERT INTO `permission` VALUES ('8', '订单管理', '0', '400', '0', '订单管理', 'orders', null, '/', '2018-01-09 09:26:53', '2018-01-09 19:20:40');
 INSERT INTO `permission` VALUES ('10', '渠道信息列表', '6', '2200', '0', '渠道信息列表', 'channelPage', null, '/channel/channelListPage', '2018-01-09 19:07:05', '2018-01-09 19:31:13');
 INSERT INTO `permission` VALUES ('11', '渠道会员列表', '6', '2300', '0', '渠道会员列表', 'channelUsers', null, '/channel/channelUserListPage', '2018-01-09 19:07:52', '2018-01-18 14:08:08');
-INSERT INTO `permission` VALUES ('12', '申请渠道信息', '6', '2100', '0', '申请渠道信息', 'addChannel', null, '/channel/channelImport', '2018-01-09 19:08:54', '2018-01-09 19:31:02');
-INSERT INTO `permission` VALUES ('13', '渠道商品列表', '5', '3100', '0', '渠道商品列表', 'shopPage', null, '/shop/shopPage', '2018-01-09 19:33:53', null);
-INSERT INTO `permission` VALUES ('14', '渠道订单列表', '8', '4100', '0', '渠道订单列表', 'orderPage', null, '/order/orderPage', '2018-01-09 19:34:33', null);
+INSERT INTO `permission` VALUES ('13', '商品列表', '5', '3100', '0', '商品列表', 'shopPage', null, '/shop/shopPage', '2018-01-09 19:33:53', '2018-04-22 21:18:11');
+INSERT INTO `permission` VALUES ('14', '商品订单列表', '8', '4100', '0', '商品订单列表', 'orderPage', null, '/order/orderPage', '2018-01-09 19:34:33', '2018-04-22 21:17:58');
 
 -- ----------------------------
 -- Table structure for role
@@ -70,9 +69,9 @@ CREATE TABLE `role` (
 -- ----------------------------
 INSERT INTO `role` VALUES ('1', '超级管理', '超级管理员', 'superman', null, '2018-01-09 19:28:53', '2018-01-09 19:34:56');
 INSERT INTO `role` VALUES ('2', '高级管理员', '高级管理员', 'highmanage', null, '2018-01-17 13:53:23', '2018-01-18 13:39:29');
-INSERT INTO `role` VALUES ('3', 'BD', '渠道业务员', 'bdmanage', null, '2018-01-18 13:41:47', null);
-INSERT INTO `role` VALUES ('4', '审核员', '渠道审核', 'checkmanage', null, '2018-01-18 14:03:00', null);
-INSERT INTO `role` VALUES ('5', '客维员', '维护分配的会员', 'guestmanage', null, '2018-01-18 14:06:48', null);
+INSERT INTO `role` VALUES ('3', '经理', '经理', 'bdmanage', null, '2018-01-18 13:41:47', '2018-04-22 21:15:38');
+INSERT INTO `role` VALUES ('4', '质检员', '质检员', 'checkmanage', null, '2018-01-18 14:03:00', '2018-04-22 21:15:59');
+INSERT INTO `role` VALUES ('5', '客维员', '客维员', 'guestmanage', null, '2018-01-18 14:06:48', '2018-04-22 21:16:07');
 
 -- ----------------------------
 -- Table structure for role_permission
@@ -151,13 +150,13 @@ CREATE TABLE `user` (
   KEY `name` (`username`) USING BTREE,
   KEY `id` (`id`) USING BTREE,
   KEY `mobile` (`mobile`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='用户表';
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES ('1', 'wyait', '12316596566', 'aaa', 'c33367701511b4f6020ec61ded352059', null, '2017-12-29 17:27:23', '2018-01-09 13:34:33', '0', '0', '181907', '2018-01-17 13:42:45');
-INSERT INTO `user` VALUES ('3', 'wy1', '11155556667', 'a11', 'c33367701511b4f6020ec61ded352059', null, '2018-01-01 15:17:19', '2018-01-02 13:40:07', '0', '0', null, null);
+INSERT INTO `user` VALUES ('3', 'wy1', '11155556667', 'a11', 'c33367701511b4f6020ec61ded352059', '1', '2018-01-01 15:17:19', '2018-04-22 21:14:58', '0', '0', null, null);
 INSERT INTO `user` VALUES ('5', 'wy23', '11155552233', 'a', 'c33367701511b4f6020ec61ded352059', null, '2018-01-02 13:41:29', '2018-01-10 15:55:37', '0', '1', null, null);
 INSERT INTO `user` VALUES ('6', 'wyyyy', '12356456542', 'afdfd123', 'c33367701511b4f6020ec61ded352059', null, '2018-01-02 13:44:04', '2018-01-02 16:56:05', '0', '1', null, null);
 INSERT INTO `user` VALUES ('7', 'wwwww', '11155623232', '123456', 'c33367701511b4f6020ec61ded352059', null, '2018-01-02 13:44:23', null, '1', '0', null, null);
@@ -173,6 +172,7 @@ INSERT INTO `user` VALUES ('17', 'oo', '12345666666', 'qq', 'c33367701511b4f6020
 INSERT INTO `user` VALUES ('18', 'iik', '12345678920', 'aaaa120', 'c33367701511b4f6020ec61ded352059', null, '2018-01-09 16:31:03', '2018-01-09 16:41:28', '0', '0', null, null);
 INSERT INTO `user` VALUES ('19', 'kitxiao', '12321727725', '24319@qq.com', 'c33367701511b4f6020ec61ded352059', null, '2018-01-17 09:24:27', null, '0', '0', '386614', '2018-01-18 09:45:41');
 INSERT INTO `user` VALUES ('20', 'xiaoqiabng1', '11111111111', '123@qq.com', 'c33367701511b4f6020ec61ded352059', null, '2018-01-17 13:54:08', null, '0', '0', '353427', '2018-01-17 13:56:59');
+INSERT INTO `user` VALUES ('21', '11123232323', '11123232323', '', 'c33367701511b4f6020ec61ded352059', '1', '2018-04-22 21:14:48', null, '0', '0', null, null);
 
 -- ----------------------------
 -- Table structure for user_role
@@ -190,5 +190,7 @@ CREATE TABLE `user_role` (
 -- Records of user_role
 -- ----------------------------
 INSERT INTO `user_role` VALUES ('1', '1');
+INSERT INTO `user_role` VALUES ('3', '5');
 INSERT INTO `user_role` VALUES ('19', '1');
 INSERT INTO `user_role` VALUES ('20', '2');
+INSERT INTO `user_role` VALUES ('21', '5');

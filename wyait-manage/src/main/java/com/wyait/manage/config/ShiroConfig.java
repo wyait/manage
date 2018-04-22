@@ -63,12 +63,8 @@ public class ShiroConfig {
 		//配置记住我或认证通过可以访问的地址
 		filterChainDefinitionMap.put("/user/userList", "user");
 		filterChainDefinitionMap.put("/", "user");
-
-		// 配置不会被拦截的链接 从上向下顺序判断
-//		filterChainDefinitionMap.put("/static/**", "anon");
-//		filterChainDefinitionMap.put("/static/*/*", "anon");
-//		filterChainDefinitionMap.put("/static/*/*/*", "anon");
-//		filterChainDefinitionMap.put("/static/*/*/*/*", "anon");
+//
+//		// 配置不会被拦截的链接 从上向下顺序判断
 		filterChainDefinitionMap.put("/css/*", "anon");
 		filterChainDefinitionMap.put("/js/*", "anon");
 		filterChainDefinitionMap.put("/js/*/*", "anon");
@@ -84,13 +80,13 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/user/sendMsg", "anon");
 		filterChainDefinitionMap.put("/user/login", "anon");
 		filterChainDefinitionMap.put("/home", "anon");
-		/*filterChainDefinitionMap.put("/page", "anon");
-		filterChainDefinitionMap.put("/channel/record", "anon");*/
-
-		//add操作，该用户必须有【addOperation】权限
-//		filterChainDefinitionMap.put("/add", "perms[addOperation]");
-
-		// <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问【放行】-->
+//		/*filterChainDefinitionMap.put("/page", "anon");
+//		filterChainDefinitionMap.put("/channel/record", "anon");*/
+//
+//		//add操作，该用户必须有【addOperation】权限
+////		filterChainDefinitionMap.put("/add", "perms[addOperation]");
+//
+//		// <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问【放行】-->
 		filterChainDefinitionMap.put("/*", "authc");
 		filterChainDefinitionMap.put("/*/*", "authc");
 		filterChainDefinitionMap.put("/*/*/*", "authc");

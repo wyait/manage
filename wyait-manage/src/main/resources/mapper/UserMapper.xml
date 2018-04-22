@@ -194,6 +194,7 @@
     <if test="userSearch.insertTimeEnd!=null and userSearch.insertTimeEnd!=''">
       AND insert_time &lt;= #{userSearch.insertTimeEnd}
     </if>
+    ORDER BY insert_time DESC
   </select>
   <!--=End getUsers 分页查询用户列表-->
 
@@ -202,6 +203,7 @@
     update user
     set
     is_job = #{isJob,jdbcType=INTEGER},
+    insert_uid = #{insertUid,jdbcType=INTEGER},
     update_time=NOW()
     where id = #{id,jdbcType=INTEGER} AND is_del=0
   </update>
@@ -212,6 +214,7 @@
     update user
     set
     is_del = #{isDel,jdbcType=INTEGER},
+    insert_uid = #{insertUid,jdbcType=INTEGER},
     update_time=NOW()
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -239,8 +242,9 @@
     select
     u.id, u.username, u.mobile, u.email, u.insert_uid insertUid,u.insert_time insertTime, u.update_time updateTime, u.is_del isDel,u.is_job isJob,
     ur.user_id,ur.role_id
-    from user u,user_role ur WHERE u.id=ur.user_id
-    AND u.is_del=0 and u.is_job=0 AND u.id=#{id}
+    from user u
+    LEFT JOIN user_role ur ON u.id=ur.user_id
+    WHERE  u.id=#{id} AND u.is_del=0 and u.is_job=0
   </select>
   <!--=End getUserAndRoles 查询用户及他对应的角色ids-->
 

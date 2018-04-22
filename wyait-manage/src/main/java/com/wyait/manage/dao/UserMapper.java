@@ -35,7 +35,8 @@ public interface UserMapper {
 	 * @param isDel
 	 * @return
 	 */
-	int setDelUser(@Param("id") Integer id, @Param("isDel") Integer isDel);
+	int setDelUser(@Param("id") Integer id, @Param("isDel") Integer isDel,
+			@Param("insertUid") Integer insertUid);
 
 	/**
 	 * 设置用户是否离职
@@ -43,7 +44,8 @@ public interface UserMapper {
 	 * @param isJob
 	 * @return
 	 */
-	int setJobUser(@Param("id") Integer id, @Param("isJob") Integer isJob);
+	int setJobUser(@Param("id") Integer id, @Param("isJob") Integer isJob,
+			@Param("insertUid") Integer insertUid);
 
 	/**
 	 * 查询用户及对应的角色
@@ -89,5 +91,5 @@ public interface UserMapper {
 	 * @param isLock
 	 * @return
 	 */
-	int setUserLockNum(@Param("id") Integer id,@Param("isLock") int isLock);
+	int setUserLockNum(@Param("id") Integer id, @Param("isLock") int isLock);
 }

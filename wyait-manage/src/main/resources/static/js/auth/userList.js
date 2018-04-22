@@ -122,6 +122,7 @@ function formSubmit(obj){
             if (data == "ok") {
                 layer.alert("操作成功",function(){
                     layer.closeAll();
+                    cleanUser()
                     //加载页面
                     load(obj);
                 });
@@ -283,3 +284,9 @@ function load(obj){
     });
 }
 
+function cleanUser(){
+    $("#username").val("");
+    $("#mobile").val("");
+    $("#email").val("");
+    $("#password").val("");
+}

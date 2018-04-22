@@ -93,8 +93,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int setDelUser(Integer id, Integer isDel) {
-		return this.userMapper.setDelUser(id,isDel);
+	public int setDelUser(Integer id, Integer isDel,Integer insertUid) {
+		return this.userMapper.setDelUser(id,isDel,insertUid);
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class UserServiceImpl implements UserService {
 				return "该手机号已经存在";
 			}
 			User exist=this.userMapper.findUserByName(user.getUsername());
-			if(null!=exist && !String.valueOf(existUser.getId()).equals(String.valueOf(user.getId()))){
+			if(null!=exist && !String.valueOf(exist.getId()).equals(String.valueOf(user.getId()))){
 				return "该用户名已经存在";
 			}
 			//更新用户
@@ -164,8 +164,8 @@ public class UserServiceImpl implements UserService {
 		System.out.println(DigestUtils.md5Hex("654321"));
 	}
 	@Override
-	public int setJobUser(Integer id, Integer isJob) {
-		return this.userMapper.setJobUser(id,isJob);
+	public int setJobUser(Integer id, Integer isJob,Integer insertUid) {
+		return this.userMapper.setJobUser(id,isJob,insertUid);
 	}
 
 	@Override
@@ -180,14 +180,27 @@ public class UserServiceImpl implements UserService {
 		//校验用户名和密码 是否正确
 		User existUser=this.userMapper.findUser(user.getUsername(),DigestUtils.md5Hex(user.getPassword()));
 		if(null != existUser && existUser.getMobile().equals(user.getMobile())){
-			String mobile_code = String.valueOf((Math.random() * 9 + 1) * 100000);
-			// 保存短信
-			existUser.setMcode(mobile_code);
+			String mobileCode="";
+			if(existUser.getSendTime()!=null){
+				long beginTime = existUser.getSendTime().getTime();
+				long endTime = new Date().getTime();
+				if(((endTime-beginTime)-120000>0)){
+					logger.debug("发送短信验证码【wyait-manager-->UserServiceImpl.sendMsg】用户信息=existUser:"+existUser);
+					mobileCode=existUser.getMcode();
+				}
+			}
+			if(StringUtils.isBlank(mobileCode)){
+				//1分钟以内，有效
+				mobileCode = String.valueOf((int) ((Math.random() * 9 + 1) * 100000));
+				// 保存短信
+				existUser.setMcode(mobileCode);
+			}
+			//更新验证码时间，延长至当前时间
 			existUser.setSendTime(new Date());
 			this.userMapper.updateByPrimaryKeySelective(existUser);
 			//发送短信验证码 ok、no
 			return SendMsgServer
-					.SendMsg(mobile_code+ "(验证码)，如不是本人操作，请忽略此消息。",user.getMobile());
+					.SendMsg(mobileCode+ "(验证码)，如不是本人操作，请忽略此消息。",user.getMobile());
 		}else{
 			return "您输入的用户信息有误，请您重新输入";
 		}

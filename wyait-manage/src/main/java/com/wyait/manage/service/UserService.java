@@ -37,7 +37,7 @@ public interface UserService {
 	 * @param isJob
 	 * @return
 	 */
-	int setJobUser(Integer id, Integer isJob);
+	int setJobUser(Integer id, Integer isJob,Integer insertUid);
 
 	/**
 	 * 删除用户
@@ -45,7 +45,7 @@ public interface UserService {
 	 * @param isDel
 	 * @return
 	 */
-	int setDelUser(Integer id, Integer isDel);
+	int setDelUser(Integer id, Integer isDel,Integer insertUid);
 
 	/**
 	 * 查询用户数据
