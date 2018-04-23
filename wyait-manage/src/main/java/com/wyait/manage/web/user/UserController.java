@@ -121,6 +121,7 @@ public class UserController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("设置用户是否离职异常！", e);
+			return "操作异常，请您稍后再试！";
 		}
 		return "ok";
 	}
@@ -155,8 +156,8 @@ public class UserController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("设置用户[新增或更新]异常！", e);
+			return "操作异常，请您稍后再试";
 		}
-		return "操作失败，请您稍后再试";
 	}
 
 	/**
@@ -183,6 +184,7 @@ public class UserController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("删除用户异常！", e);
+			return "操作异常，请您稍后再试";
 		}
 		return "ok";
 	}
@@ -314,7 +316,7 @@ public class UserController {
 			 * logger.debug("用户登录，结果=responseResult:"+responseResult); return
 			 * responseResult; } //1分钟 long beginTime =
 			 * existUser.getSendTime().getTime(); long endTime = new
-			 * Date().getTime(); if(((endTime-beginTime)-120000>0)){
+			 * Date().getTime(); if(((endTime-beginTime)-60000>0)){
 			 * responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR.
 			 * getCode()); responseResult.setMessage("短信验证码超时");
 			 * logger.debug("用户登录，结果=responseResult:"+responseResult); return
@@ -428,7 +430,7 @@ public class UserController {
 			 * logger.debug("用户登录，结果=responseResult:"+responseResult); return
 			 * responseResult; } //1分钟 long beginTime =
 			 * existUser.getSendTime().getTime(); long endTime = new
-			 * Date().getTime(); if(((endTime-beginTime)-120000>0)){
+			 * Date().getTime(); if(((endTime-beginTime)-60000>0)){
 			 * responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR.
 			 * getCode()); responseResult.setMessage("短信验证码超时");
 			 * logger.debug("用户登录，结果=responseResult:"+responseResult); return
@@ -599,9 +601,9 @@ public class UserController {
 				 * responseResult.setCode(IStatusMessage.SystemStatus.NO_LOGIN.
 				 * getCode());
 				 * logger.debug("用户登录，结果=responseResult:"+responseResult);
-				 * return responseResult; } //2分钟 long beginTime =
+				 * return responseResult; } //1分钟 long beginTime =
 				 * existUser.getSendTime().getTime(); long endTime = new
-				 * Date().getTime(); if(((endTime-beginTime)-120000>0)){
+				 * Date().getTime(); if(((endTime-beginTime)-60000>0)){
 				 * responseResult.setCode(IStatusMessage.SystemStatus.ERROR.
 				 * getCode()); responseResult.setMessage("短信验证码超时");
 				 * logger.debug("用户登录，结果=responseResult:"+responseResult);
@@ -613,6 +615,7 @@ public class UserController {
 			responseResult.setCode(IStatusMessage.SystemStatus.ERROR.getCode());
 			responseResult.setMessage("操作失败，请您稍后再试");
 			logger.error("修改密码之确认手机号异常！", e);
+			return responseResult;
 		}
 		responseResult.setCode(IStatusMessage.SystemStatus.SUCCESS.getCode());
 		responseResult.setMessage("SUCCESS");
@@ -666,7 +669,6 @@ public class UserController {
 				responseResult.setMessage("操作失败，请您稍后再试");
 				logger.debug("修改密码失败，已经离职或该用户被删除！结果=responseResult:"
 						+ responseResult);
-				return responseResult;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

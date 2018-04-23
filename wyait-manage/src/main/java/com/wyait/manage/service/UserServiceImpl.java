@@ -184,7 +184,8 @@ public class UserServiceImpl implements UserService {
 			if(existUser.getSendTime()!=null){
 				long beginTime = existUser.getSendTime().getTime();
 				long endTime = new Date().getTime();
-				if(((endTime-beginTime)-120000>0)){
+				//1分钟内有效
+				if(((endTime-beginTime)<60000)){
 					logger.debug("发送短信验证码【wyait-manager-->UserServiceImpl.sendMsg】用户信息=existUser:"+existUser);
 					mobileCode=existUser.getMcode();
 				}

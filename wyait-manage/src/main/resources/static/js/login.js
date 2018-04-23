@@ -24,6 +24,7 @@ var picCode;
  })
 //定时发送验证码
 var wait = 60;
+ var startJob;
 //o 对象
 function send(o, flag) {
         if (!flag) {
@@ -61,7 +62,7 @@ function send(o, flag) {
                 $("#msgBtn").html("<span style='margin-left: -12px;'>"+wait + "s后可重新发送</span>");
             }
             wait--;
-            setTimeout(function () {
+            startJob=setTimeout(function () {
                 if (wait == 0) {
                     flag = true
                 }
@@ -69,6 +70,11 @@ function send(o, flag) {
                 send(o, flag)
             }, 1000)
         }
+}
+function closeSend(){
+    $("#msgBtn").removeAttr("disabled");
+    $("#msgBtn").html("获取验证码");
+    clearTimeout(startJob);
 }
 function sendMsg(){
     var flag=checkParams();
@@ -80,7 +86,7 @@ function sendMsg(){
             if (data.code == "1000") {
                 layer.msg("发送短信成功");
             } else {
-                $("#password").val("");
+                //$("#password").val("");
                 picCode = drawPic();
                 $("#code").val("");
                 layer.alert(data.message);
@@ -109,10 +115,14 @@ function login(){
                     window.location.href="/user/userList";
                 });
             }else{
-                $("#password").val("");
+                //$("#password").val("");
                 picCode=drawPic();
                 $("#code").val("");
-                layer.alert(data.message);
+                $("#smsCode").val("");
+                layer.alert(data.message,function(){
+                    //关闭发送验证码按钮倒计时
+                    closeSend();
+                });
             }
         });
     }
