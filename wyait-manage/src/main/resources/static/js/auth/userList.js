@@ -105,6 +105,8 @@ function setJobUser(obj,id,name,checked){
                 });
             }else{
                 layer.alert(data);//弹出错误提示
+                //加载load方法
+                load(obj);
             }
         });
     }, function(){
@@ -121,8 +123,8 @@ function formSubmit(obj){
         success: function (data) {
             if (data == "ok") {
                 layer.alert("操作成功",function(){
+                	cleanUser();
                     layer.closeAll();
-                    cleanUser()
                     //加载页面
                     load(obj);
                 });
@@ -138,6 +140,12 @@ function formSubmit(obj){
             });
         }
     });
+}
+function cleanUser(){
+	$("#username").val("");
+	$("#mobile").val("");
+	$("#email").val("");
+	$("#password").val("");
 }
 function checkRole(){
     //选中的角色
@@ -284,9 +292,3 @@ function load(obj){
     });
 }
 
-function cleanUser(){
-    $("#username").val("");
-    $("#mobile").val("");
-    $("#email").val("");
-    $("#password").val("");
-}
