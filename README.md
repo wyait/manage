@@ -10,4 +10,4 @@ spring boot + mybatis + shiro + layui 搭建的后台权限管理系统
 3. 解决ajax请求，判断用户未登录之后，重定向到登录页面问题；
 4. 解决完成了功能1，导致的session有效时间冲突问题。   
 
-[ **wyait.sql** ]: sql数据库语句源码
+**wyait.sql**: sql数据库语句源码
