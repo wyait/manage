@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/html">
+<head>
+    <link href="../css/jquery.treetable.theme.default.css" rel="stylesheet"
+          type="text/css" />
+    <link href="../css/jquery.treetable.css" rel="stylesheet" type="text/css" />
+    <script src="../js/jquery-2.1.1.min.js"></script>
+    <script src="../js/jquery.treetable.js"></script>
+</head>
+<body>
+<!--头-->
+<table id="example-advanced">
+    <tr data-tt-id="1">
+        <td>Parent</td>
+        <td>title</td>
+    </tr>
+    <tr data-tt-id="1-1" data-tt-parent-id="1">
+        <td>Child</td>
+        <td>desc</td>
+    </tr>
+    <tr data-tt-id="2">
+        <td>Parent</td>
+        <td>title</td>
+    </tr>
+    <tr data-tt-id="2-1" data-tt-parent-id="2">
+        <td>Child</td>
+        <td>desc</td>
+    </tr>
+</table>
+<script>
+    $("#example-advanced").treetable({
+        expandable : true
+    });
+</script>
+<!--底部-->
+</body>
+</html>

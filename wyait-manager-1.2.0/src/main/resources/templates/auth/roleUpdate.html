@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="updateRole">
+    <form id="updateRoleForm" class="layui-form" action="" method="post">
+        <input type="hidden" id="id" name="id"  th:value="${roleDetail != null}?(${roleDetail.id != null}? ${roleDetail.id} : '') : ''"/>
+        <input type="hidden" id="rolePermIds" name="rolePermIds"/>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">角色名称：</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="roleName" th:value="${roleDetail != null}?(${roleDetail.roleName != null}? ${roleDetail.roleName} : '') : ''" lay-verify="required" autocomplete="off" class="layui-input"/>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">角色编号：</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="code" th:value="${roleDetail != null}?(${roleDetail.code != null}? ${roleDetail.code} : '') : ''" lay-verify="required" autocomplete="off" class="layui-input"/>
+                </div>
+            </div>
+        </div>
+
+        <!--<div class="layui-form-item">
+            <label class="layui-form-label">角色等级：</label>
+            <div class="layui-input-block">
+                <input type="text" name="grade" th:value="${roleDetail != null}?(${roleDetail.grade != null}? ${roleDetail.grade} : '') : ''" lay-verify="" placeholder="" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>-->
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色描述：</label>
+            <div class="layui-input-block">
+                <input type="text" name="descpt" th:value="${roleDetail != null}?(${roleDetail.descpt != null}? ${roleDetail.descpt} : '') : ''" lay-verify="" placeholder="" autocomplete="off" class="layui-input"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限：</label>
+            <div class="layui-input-block">
+                <ul id="treeDemo" class="ztree"></ul>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit="" lay-filter="updateRoleSumbit">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+    <script src="/js/ztree/jquery.ztree.all.js"></script>
+    <script src="/js/auth/roleUpdate.js"></script>
+    <script th:inline="javascript">
+        var permIdList=/*[[${perms}]]*/;
+    </script>
+</div>
+</body>
+</html>

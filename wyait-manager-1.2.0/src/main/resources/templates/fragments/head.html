@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<body>
+<header th:fragment="header">
+<script th:inline="javascript">
+	/*<![CDATA[*/
+        $(function(){
+            //手机设备的简单适配
+            var treeMobile = $('.site-tree-mobile'),
+                shadeMobile = $('.site-mobile-shade')
+
+            treeMobile.on('click', function(){
+                $('body').addClass('site-mobile');
+            });
+
+            shadeMobile.on('click', function(){
+                $('body').removeClass('site-mobile');
+            });
+
+          //菜单绑定
+            $(".switchMenu").on("click",function(){
+                if($(this).find("i.fa-outdent").length>0){
+                    $(this).find("i").removeClass("fa-outdent").addClass("fa-indent");
+                }else{
+                    $(this).find("i").removeClass("fa-indent").addClass("fa-outdent");
+                }
+                $(".layui-layout-admin").toggleClass("showMenu");
+            });
+        });
+	
+	/*]]>*/
+	</script>
+    <div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <a href="javascript:;" class="layui-hide-xs"><div class="layui-logo">后台管理系统</div>
+        </a>
+        <a href="javascript:;" class="layui-hide-xs">
+        	<div class="switchMenu" style="display: none;"><i class="fa fa-indent"></i></div>
+        </a>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <!--<ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="">控制台</a></li>
+            <li class="layui-nav-item"><a href="">商品管理</a></li>
+            <li class="layui-nav-item"><a href="">用户</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">其它系统</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">邮件管理</a></dd>
+                    <dd><a href="">消息管理</a></dd>
+                    <dd><a href="">授权管理</a></dd>
+                </dl>
+            </li>
+        </ul>-->
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="/images/logo.png" class="layui-nav-img"></img>
+                    <shiro:principal property="username"></shiro:principal>
+                </a>
+                <dl class="layui-nav-child">
+                    <!--<dd><a href="">基本资料</a></dd>-->
+                    <dd id="updUsePwdDd" class="layui-this"><a href="javascript:;" onclick="updateUsePwd();">修改密码</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="/logout">退了</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <!--<ul class="layui-nav layui-nav-tree"  lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">系统管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="/user/userList">用户管理</a>
+                        </dd>
+                        <dd><a href="/auth/roleManage">角色管理</a></dd>
+                        <dd><a href="/auth/permList">权限管理</a></dd>
+                        <dd><a href="">超链接</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="">其他管理</a></li>
+            </ul>-->
+        </div>
+    </div>
+    </div>
+<script type="text/javascript" src="/js/head.js"></script>
+<!-- 移动导航 -->
+<div class="site-tree-mobile layui-hide">
+  <i class="layui-icon">&#xe602;</i>
+</div>
+<div class="site-mobile-shade"></div>
+</header>
+</body>
+</html>

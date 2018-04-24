@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--head部分-->
+<head th:include="layout :: htmlhead" th:with="title='后台管理'">
+</head>
+<script type="text/javascript">
+    var href=window.location.href;
+    if(href.indexOf("kickout")>0){
+        setTimeout("top.location.href='/login?kickout';", 0);
+    }else{
+        setTimeout("top.location.href='/login';", 0);
+    }
+</script>
+</html>
