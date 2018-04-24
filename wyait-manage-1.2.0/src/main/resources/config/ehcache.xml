@@ -1,0 +1,63 @@
+<ehcache>
+
+    <diskStore path="java.io.tmpdir"/>
+    <!-- name 缓存名称 -->
+    <!-- maxElementsInMemory 内存中最大缓存对象数，看着自己的heap大小来搞 -->
+    <!-- eternal：true表示对象永不过期，此时会忽略timeToIdleSeconds和timeToLiveSeconds属性，默认为false -->
+    <!-- maxElementsOnDisk：硬盘中最大缓存对象数，若是0表示无穷大 -->
+    <!-- overflowToDisk：true表示当内存缓存的对象数目达到了maxElementsInMemory界限后，
+    会把溢出的对象写到硬盘缓存中。注意：如果缓存的对象要写入到硬盘中的话，则该对象必须实现了Serializable接口才行。-->
+    <!-- diskSpoolBufferSizeMB：磁盘缓存区大小，默认为30MB。每个Cache都应该有自己的一个缓存区。-->
+    <!-- diskPersistent：是否缓存虚拟机重启期数据  -->
+    <!-- diskExpiryThreadIntervalSeconds：磁盘失效线程运行时间间隔，默认为120秒 -->
+
+    <!--timeToIdleSeconds:设置对象在失效前的允许闲置时间（单位：秒）。当对象自从最近一次被访问后，
+    如果处于空闲状态的时间超过了timeToIdleSeconds属性值，这个对象就会过期，
+    EHCache将把它从缓存中清空。仅当eternal=false对象不是永久有效时使用，可选属性，默认值是0，也就是可闲置时间无穷大。-->
+
+    <!--timeToLiveSeconds:设置对象在失效前允许存活时间（单位：秒）。最大时间介于创建时间和失效时间之间。
+    如果处于缓存中的时间超过了 timeToLiveSeconds属性值，这个对象就会过期，
+    EHCache将把它从缓存中清除。仅当eternal=false对象不是永久有效时使用，默认是0.，也就是对象存活时间无穷大。-->
+    <!-- clearOnFlush：内存数量最大时是否清除 -->
+    <!-- memoryStoreEvictionPolicy：当达到maxElementsInMemory限制时，
+    Ehcache将会根据指定的策略去清理内存。可选策略有：LRU（最近最少使用，默认策略）、
+    FIFO（先进先出）、LFU（最少访问次数）。-->
+    <defaultCache
+            maxElementsInMemory="10000"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="120"
+            maxElementsOnDisk="10000000"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU">
+        <!--<persistence strategy="localTempSwap"/>-->
+    </defaultCache>
+    <!-- 设定缓存的默认数据过期策略 -->
+    <cache name="shiro"
+           maxElementsInMemory="10000"
+           timeToIdleSeconds="120"
+           timeToLiveSeconds="120"
+           maxElementsOnDisk="10000000"
+           diskExpiryThreadIntervalSeconds="120"
+           memoryStoreEvictionPolicy="LRU">
+       <!-- <persistence strategy="localTempSwap"/>-->
+    </cache>
+    <!-- shiro-activeSessionCache活跃用户session缓存策略 -->
+    <cache name="shiro-activeSessionCache"
+           maxElementsInMemory="10000"
+           timeToIdleSeconds="86400"
+           timeToLiveSeconds="86400"
+           maxElementsOnDisk="10000000"
+           diskExpiryThreadIntervalSeconds="120"
+           memoryStoreEvictionPolicy="LRU">
+        <!-- <persistence strategy="localTempSwap"/>-->
+    </cache>
+    <!-- 登录记录缓存 锁定2分钟 -->
+    <cache name="passwordRetryCache"
+           maxEntriesLocalHeap="10000"
+           eternal="false"
+           timeToIdleSeconds="120"
+           timeToLiveSeconds="0"
+           overflowToDisk="false"
+           statistics="false">
+    </cache>
+</ehcache>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='权限管理'"></head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头-->
+    <div th:replace="fragments/head :: header"></div>
+
+    <div class="layui-body" style="margin: 1%">
+        <div class="demoTable">
+            &nbsp;&nbsp;<button class="layui-btn" onclick="addPerm('{{r.id}}',0)">开通权限</button>
+        </div>
+
+        <div id="permTable" class="grid">
+        </div>
+        <script id="view" type="text/html">
+            <table class="layui-table">
+                <thead>
+                <tr>
+                    <th>权限名称</th>
+                    <th>权限分类</th>
+                    <th>权限路径</th>
+                    <th>权限code</th>
+                    <th>优先级</th>
+                    <th style="width:140px;">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{# layui.each(d.rows,function(index,r){ }}
+                <tr>
+                    <td>{{r.name}}</td>
+                    <td>{{r.istype==0?'菜单':'功能'}}</td>
+                    <td>{{r.page}}</td>
+                    <td>{{r.code}}</td>
+                    <td>{{r.zindex}}</td>
+                    <td><a class="layui-btn layui-btn-primary layui-btn-xs" onclick="edit('{{r.id}}',0);">编辑</a>
+                        <a class="layui-btn layui-btn-xs" onclick="addPerm('{{r.id}}',1)">添加子节点</a>
+                        <a class="layui-btn layui-btn-danger layui-btn-xs" onclick="del('{{r.id}}','{{r.name}}')">删除</a>
+                    </td>
+                </tr>
+                {{# }); }}
+                </tbody>
+            </table>
+        </script>
+    </div>
+
+    <!--添加或编辑权限-->
+    <div id="updatePerm" class="layer_self_wrap" style="width:500px;display:none;">
+        <form id="permForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <input id="type" type="hidden" name="type"/>
+            <input id="pid" type="hidden" name="pid"/>
+            <input id="id" type="hidden" name="id"/>
+            <div class="layui-form-item">
+                <label class="layui-form-label">权限名称</label>
+                <div class="layui-input-inline">
+                    <input name="name" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+            </div>
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">权限分类</label>
+                <div class="layui-input-block">
+                    <input name="istype" value="0" title="菜单" checked="" type="radio"/>
+                    <input name="istype" value="1" title="功能" type="radio"/>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">权限路径</label>
+                <div class="layui-input-inline">
+                    <input name="page" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">权限code</label>
+                <div class="layui-input-inline">
+                    <input name="code" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">权限优先级</label>
+                <div class="layui-input-inline">
+                    <input name="zindex" autocomplete="off" class="layui-input" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"
+                           onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                </div>
+                <div class="layui-form-mid layui-word-aux">请填写大于0的整数数字</div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">文本域</label>
+                <div class="layui-input-block">
+                    <textarea name="descpt" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block" style="margin-left: 10px;">
+                    <button class="layui-btn"  lay-submit="" lay-filter="permSubmit">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+
+    <!--底部-->
+    <div th:replace="fragments/footer :: footer"></div>
+    <script src="/js/auth/permList.js"></script>
+    <script th:inline="javascript">
+        var permList=/*[[${permList}]]*/;
+    </script>
+</div>
+</body>
+</html>

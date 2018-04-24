@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--head部分-->
+<head th:include="layout :: htmlhead" th:with="title='后台管理'">
+</head>
+<body style="width: 100%;height:auto;background: url('/images/bk.gif') no-repeat;background-size: 100%;">
+    <div class="layui-container" style="height: 100%">
+
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 6%">
+            <legend style="margin-left: 40%"><span style="font-weight: bold;font-size:22px;">后台管理系统</span></legend>
+        </fieldset>
+
+        <div class="layui-row">
+            <div class="layui-col-xs3">
+                <div class="grid-demo grid-demo-bg1">
+                    &nbsp;
+                </div>
+            </div>
+            <div class="layui-col-xs3">
+                <div class="grid-demo" style="margin-top: 100%;">
+                    <!--<img style="margin-left: -30%;margin-top: -10%;" src="/images/login.png"/>-->
+                    <a href="http://blog.51cto.com/wyait"><span style="font-weight: bold;font-size:22px;">http://blog.51cto.com/wyait</span></a>
+                </div>
+            </div>
+            <div class="layui-col-xs6">
+                <div class="grid-demo">
+                    <form id="useLogin" class="layui-form" action="">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">用户名</label>
+                            <div class="layui-input-inline">
+                                <input id="username" name="username" lay-verify="required" autocomplete="off" class="layui-input" type="tel"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">密&nbsp;&nbsp;码</label>
+                            <div class="layui-input-inline">
+                                <input id="password" name="password" lay-verify="required" autocomplete="off" class="layui-input" type="password"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">手机号</label>
+                            <div class="layui-input-inline">
+                                <input id="mobile" name="mobile" lay-verify="required" autocomplete="off" class="layui-input" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"
+                                       onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">验证码</label>
+                                <div class="layui-input-inline" style="width: 100px;">
+                                    <input id="code" name="code" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                                </div>
+                                <div class="layui-input-inline" style="width: 120px;">
+                                    <canvas id="canvas" width="120" height="38"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">手机验证码</label>
+                                <div class="layui-input-inline" style="width: 100px;">
+                                    <input id="smsCode" name="smsCode" autocomplete="off" class="layui-input" type="text"/>
+                                </div>
+                                <div class="layui-input-inline" style="width: 120px;">
+                                    <button id="msgBtn" class="layui-btn" lay-submit="" style="width: 120px;"  lay-filter="sendMsg">获取验证码</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item" style="margin-top: -20px;">
+                            <label class="layui-form-label"></label>
+                            <div class="layui-inline">
+                                <input type="checkbox" name="rememberMe" lay-skin="primary"  title="记住我"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" type="reset">重置</button>
+                                <button id="loginBtn" class="layui-btn layui-btn-primary" lay-submit="" lay-filter="login">登录</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript" src="/js/login.js"></script>
+<script type="text/javascript" src="/js/validate.js"></script>
+</body>
+</html>

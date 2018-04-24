@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wyait.manage.dao.RolePermissionMapper" >
+  <resultMap id="BaseResultMap" type="com.wyait.manage.pojo.RolePermissionKey" >
+    <id column="permit_id" property="permitId" jdbcType="INTEGER" />
+    <id column="role_id" property="roleId" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.wyait.manage.pojo.RolePermissionKey" >
+    delete from role_permission
+    where permit_id = #{permitId,jdbcType=INTEGER}
+      and role_id = #{roleId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wyait.manage.pojo.RolePermissionKey" >
+    insert into role_permission (permit_id, role_id)
+    values (#{permitId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wyait.manage.pojo.RolePermissionKey" >
+    insert into role_permission
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="permitId != null" >
+        permit_id,
+      </if>
+      <if test="roleId != null" >
+        role_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="permitId != null" >
+        #{permitId,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+
+  <!--=Start findByRole 根据角色查询中间表数据-->
+  <select id="findByRole" resultType="RolePermissionKey">
+    SELECT role_id,permit_id
+    from role_permission
+    WHERE role_id=#{roleId}
+  </select>
+  <!--=End findByRole 根据角色查询中间表数据-->
+</mapper>

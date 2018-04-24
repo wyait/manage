@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+<!--Configuration后面的status，这个用于设置log4j2自身内部的信息输出，可以不设置，当设置成trace时，你会看到log4j2内部各种详细输出；可以设置成OFF(关闭)或Error(只输出错误信息) -->
+<!--monitorInterval：Log4j2能够自动检测修改配置 文件和重新配置本身，设置间隔秒数 -->
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <!-- 缺省配置（用于开发环境），配置日志文件输出目录和动态参数。其他环境需要在VM参数中指定； “sys:”表示：如果VM参数中没指定这个变量值，则使用本文件中定义的缺省全局变量值 -->
+        <Property name="instance">wyait-manage</Property>
+        <Property name="log.dir">D:\log\logs</Property>
+    </Properties>
+    <!-- 定义所有的appender -->
+    <Appenders>
+
+        <!-- 优先级从高到低分别是 OFF、FATAL、ERROR、WARN、INFO、DEBUG、ALL -->
+        <!-- 单词解释： Match：匹配 DENY：拒绝 Mismatch：不匹配 ACCEPT：接受 -->
+        <!-- DENY，日志将立即被抛弃不再经过其他过滤器； NEUTRAL，有序列表里的下个过滤器过接着处理日志； ACCEPT，日志会被立即处理，不再经过剩余过滤器。 -->
+        <!--输出日志的格式
+         %d{yyyy-MM-dd HH:mm:ss, SSS} : 日志生产时间
+         %p : 日志输出格式
+         %c : logger的名称
+         %m : 日志内容，即 logger.info("message")
+         %n : 换行符
+         %C : Java类名
+         %L : 日志输出所在行数
+         %M : 日志输出所在方法名
+         hostName : 本地机器名
+         hostAddress : 本地ip地址 -->
+
+        <!--这个输出控制台的配置 -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
+            <!--输出日志的格式 -->
+            <PatternLayout
+                    pattern="[%date{yyyy-MM-dd HH:mm:ss.SSS}][%thread][%level][%class][%line]:%message%n"/>
+        </Console>
+        <!-- info及以上级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档
+        <RollingRandomAccessFile> filepattern 中的日期格式精确位数决定了生成日志的日期单位，
+            如果按月生成日志，那么 filePath 修改为 "${LOG_HOME}/app-%d{yyyy-MM}.log";
+            按小时生成日志，filePath = "${LOG_HOME}/app-%d{yyyy-MM-dd-HH-mm}.log"; -->
+        <RollingRandomAccessFile name="infoLog"
+                                 fileName="${log.dir}/${instance}-info.log"
+                                 filePattern="${log.dir}/%d{yyyy-MM}/${instance}-info-%d{yyyy-MM-dd}-%i.log.gz"
+                                 append="true">
+            <!--filePattern="${log.dir}/%d{yyyy-MM}/${instance}-info-%d{mm-ss}-%i.log.gz"-->
+            <PatternLayout
+                    pattern="[%date{yyyy-MM-dd HH:mm:ss.SSS}][%thread][%level][%class][%line]:%message%n"/>
+            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch） -->
+            <Filters>
+                <ThresholdFilter level="info" onMatch="ACCEPT"
+                                 onMismatch="DENY"/>
+            </Filters>
+            <Policies>
+                <!-- 基于时间的滚动策略，interval属性用来指定多久滚动一次，默认是1 hour -->
+                <TimeBasedTriggeringPolicy interval="1"
+                                           modulate="true"/>
+                <!-- 基于指定文件大小的滚动策略，size属性用来定义每个日志文件的大小 -->
+                <SizeBasedTriggeringPolicy size="200MB"/>
+                <!-- DefaultRolloverStrategy:用来指定同一个文件夹下最多有几个日志文件时开始删除最旧的，创建新的(通过max属性) -->
+            </Policies>
+            <!-- <CronTriggeringPolicy schedule="* * * * * ?"/>触发策略 -->
+            <!-- <DirectWriteRolloverStrategy maxFiles="10" /> -->
+            <!-- 最多备份30天以内的日志，此处为策略限制，Delete中可以按自己需要用正则表达式编写 -->
+            <!-- DefaultRolloverStrategy 加属性：max="30" 保留近30天的日志文件 -->
+            <DefaultRolloverStrategy>
+                <!-- 在rollover时间内匹配删除基本目录下所有满足参数glob等于*/wyait-*.log.gz和超过3天或更早的文件。 -->
+                <!-- 1.maxDepth：要访问的目录的最大级别数。值为0表示仅访问起始文件（基本路径本身），除非被安全管理者拒绝。Integer.MAX_VALUE的值
+                    表示应该访问所有级别。默认为1，意思是指定基本目录中的文件。
+                    2. age的单位：D、H、M、S，分别表示天、小时、分钟、秒
+                    3. basePath表示日志存储的基目录，maxDepth=“1”表示当前目录。因为我们封存的历史日志在basePath里面的backup目录，所以maxDepth设置为2。 -->
+                <Delete basePath="${log.dir}" maxDepth="2">
+                    <!-- IfFileName - glob: 如果regex没有指定的话，则必须。使用类似于正则表达式但是又具有更简单的有限模式语言来匹配相对路径（相对于基本路径） -->
+                    <IfFileName glob="*/wyait-*.log.gz"/>
+                    <!-- IfLastModified - age: 必须。指定持续时间duration。该条件接受比指定持续时间更早或更旧的文件。 -->
+                    <IfLastModified age="90D"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingRandomAccessFile>
+
+        <!-- warn级别的日志信息 -->
+        <RollingRandomAccessFile name="warnLog"
+                                 fileName="${log.dir}/${instance}-warn.log"
+                                 filePattern="${log.dir}/%d{yyyy-MM}/${instance}-warn-%d{yyyy-MM-dd}-%i.log.gz"
+                                 append="true">
+            <Filters>
+                <ThresholdFilter level="error" onMatch="DENY"
+                                 onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="warn" onMatch="ACCEPT"
+                                 onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout
+                    pattern="[%date{yyyy-MM-dd HH:mm:ss.SSS}][%thread][%level][%class][%line]:%message%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"
+                                           modulate="true"/>
+                <SizeBasedTriggeringPolicy size="200MB"/>
+            </Policies>
+        </RollingRandomAccessFile>
+
+        <!-- error级别的日志信息 -->
+        <RollingRandomAccessFile name="errorLog"
+                                 fileName="${log.dir}/${instance}-error.log"
+                                 filePattern="${log.dir}/%d{yyyy-MM}/${instance}-error-%d{yyyy-MM-dd}-%i.log.gz"
+                                 append="true">
+            <Filters>
+                <ThresholdFilter level="ERROR" onMatch="ACCEPT"
+                                 onMismatch="DENY"/>
+            </Filters>
+            <PatternLayout
+                    pattern="[%date{yyyy-MM-dd HH:mm:ss.SSS}][%thread][%level][%class][%line]:%message%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"
+                                           modulate="true"/>
+                <SizeBasedTriggeringPolicy size="200MB"/>
+            </Policies>
+        </RollingRandomAccessFile>
+    </Appenders>
+
+    <!-- 全局配置，默认所有的Logger都继承此配置 -->
+    <!-- 用来配置LoggerConfig，包含一个root logger和若干个普通logger。 additivity指定是否同时输出log到父类的appender，缺省为true。
+        一个Logger可以绑定多个不同的Appender。只有定义了logger并引入的appender，appender才会生效。 -->
+    <Loggers> <!-- 第三方的软件日志级别 -->
+        <logger name="org.springframework" level="info" additivity="true">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="infoLog"/>
+            <AppenderRef ref="warnLog"/>
+            <AppenderRef ref="errorLog"/>
+        </logger>
+        <logger name="java.sql.PreparedStatement" level="debug"
+                additivity="true">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="infoLog"/>
+        </logger>
+        <!-- root logger 配置 -->
+        <Root level="debug" includeLocation="true">
+            <AppenderRef ref="infoLog"/>
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="errorLog"/>
+        </Root>
+        <!-- AsyncRoot - 异步记录日志 - 需要LMAX Disruptor的支持 -->
+        <!-- <AsyncRoot level="info" additivity="false"> <AppenderRef ref="Console"
+            /> <AppenderRef ref="infoLog" /> <AppenderRef ref="errorLog" /> </AsyncRoot> -->
+    </Loggers>
+</Configuration>
+
