@@ -49,12 +49,12 @@ function send(o, flag) {
                     $("#password").val("");
                     picCode = drawPic();
                     $("#code").val("");
-                    layer.alert(data.message);
                     //禁用发送短信验证码按钮
                     o.removeAttribute("disabled");
                     //o.value = "获取验证码";
                     wait = 60;
                     flag = false;
+                    layer.alert(data.message);
                 }
                 return false;
             });
@@ -127,6 +127,7 @@ function login(){
                 $("#code").val("");
                 $("#smsCode").val("");
                 layer.alert(data.message,function(){
+                    layer.closeAll();//关闭所有弹框
                     //关闭发送验证码按钮倒计时
                     closeSend();
                 });

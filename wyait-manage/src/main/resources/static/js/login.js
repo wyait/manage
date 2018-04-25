@@ -20,6 +20,13 @@ var picCode;
              login();
              return false;
          });
+         var path=window.location.href;
+//    	 console.info("==请求的uri:"+path);
+         if(path.indexOf("kickout")>0){
+             layer.alert("您的账号已在别处登录；若不是您本人操作，请立即修改密码！",function(){
+                 window.location.href="/login";
+             });
+         }
      })
  })
 //定时发送验证码
@@ -42,12 +49,12 @@ function send(o, flag) {
                     $("#password").val("");
                     picCode = drawPic();
                     $("#code").val("");
-                    layer.alert(data.message);
                     //禁用发送短信验证码按钮
                     o.removeAttribute("disabled");
                     //o.value = "获取验证码";
                     wait = 60;
                     flag = false;
+                    layer.alert(data.message);
                 }
                 return false;
             });
@@ -120,6 +127,7 @@ function login(){
                 $("#code").val("");
                 $("#smsCode").val("");
                 layer.alert(data.message,function(){
+                    layer.closeAll();//关闭所有弹框
                     //关闭发送验证码按钮倒计时
                     closeSend();
                 });
