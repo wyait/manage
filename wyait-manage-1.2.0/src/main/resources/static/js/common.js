@@ -93,3 +93,35 @@ function isLogin(result){
     }
     return true;//返回true
 }
+
+/**
+ * 获取get请求参数
+ * @param name
+ * @returns
+ */
+function GetQueryString(name){
+    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+    var search=window.location.search;
+    if(search!=null && search!=""){
+        var r = search.substr(1).match(reg);
+        if(r!=null){
+            return  unescape(r[2]);
+        }
+    }
+    return null;
+}
+/**
+ * 获取菜单uri
+ * @returns
+ */
+function getCallback(){
+    var pathname = window.location.pathname;
+    var param=GetQueryString("callback");
+    //console.log("pathname:"+pathname);
+    //console.log("param:"+param);
+    if(param!=null && param != ""){
+        return param;
+    }else{
+        return pathname;
+    }
+}

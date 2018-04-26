@@ -81,3 +81,47 @@ Number.prototype.formatMoney = function (places, symbol, thousand, decimal) {
      j = (j = i.length) > 3 ? j % 3 : 0;
  return symbol + negative + (j ? i.substr(0, j) + thousand : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + (places ? decimal + Math.abs(number - i).toFixed(places).slice(2) : "");
 };
+
+/**
+ * 判断是否登录，没登录刷新当前页，促使Shiro拦截后跳转登录页
+ * @param result	ajax请求返回的值
+ * @returns {如果没登录，刷新当前页}
+ */
+function isLogin(result){
+    if(result && result.code && result.code == '1101'){
+        window.location.reload(true);//刷新当前页
+    }
+    return true;//返回true
+}
+
+/**
+ * 获取get请求参数
+ * @param name
+ * @returns
+ */
+function GetQueryString(name){
+    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+    var search=window.location.search;
+    if(search!=null && search!=""){
+        var r = search.substr(1).match(reg);
+        if(r!=null){
+            return  unescape(r[2]);
+        }
+    }
+    return null;
+}
+/**
+ * 获取菜单uri
+ * @returns
+ */
+function getCallback(){
+    var pathname = window.location.pathname;
+    var param=GetQueryString("callback");
+    //console.log("pathname:"+pathname);
+    //console.log("param:"+param);
+    if(param!=null && param != ""){
+        return param;
+    }else{
+        return pathname;
+    }
+}

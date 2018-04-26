@@ -50,7 +50,7 @@ public class ShiroConfig {
 		shiroFilterFactoryBean.setSecurityManager(securityManager);
 
 		// 指定要求登录时的链接
-		shiroFilterFactoryBean.setLoginUrl("/login");
+		shiroFilterFactoryBean.setLoginUrl("/toLogin");
 		// 登录成功后要跳转的链接
 		shiroFilterFactoryBean.setSuccessUrl("/index");
 		// 未授权时跳转的界面;
@@ -65,6 +65,7 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/", "user");
 //
 //		// 配置不会被拦截的链接 从上向下顺序判断
+		filterChainDefinitionMap.put("/login", "anon");
 		filterChainDefinitionMap.put("/css/*", "anon");
 		filterChainDefinitionMap.put("/js/*", "anon");
 		filterChainDefinitionMap.put("/js/*/*", "anon");

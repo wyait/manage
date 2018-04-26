@@ -72,7 +72,8 @@ public class UserRoleDTO {
 	}
 
 	public String getInsertTime() {
-		return insertTime;
+		return insertTime == null ? "" : insertTime.substring(0,
+				insertTime.length() - 2);
 	}
 
 	public void setInsertTime(String insertTime) {
@@ -80,7 +81,8 @@ public class UserRoleDTO {
 	}
 
 	public String getUpdateTime() {
-		return updateTime;
+		return updateTime == null ? "" : updateTime.substring(0,
+				updateTime.length() - 2);
 	}
 
 	public void setUpdateTime(String updateTime) {

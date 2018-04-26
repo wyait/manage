@@ -17,6 +17,7 @@ import com.wyait.manage.utils.PageDataResult;
 import com.wyait.manage.utils.SendMsgServer;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,6 +126,12 @@ public class UserServiceImpl implements UserService {
 				for (UserRoleKey ur : urs) {
 					this.userRoleMapper.deleteByPrimaryKey(ur);
 				}
+			}
+			//如果是自己，修改完成之后，直接退出；重新登录
+			User adminUser = (User) SecurityUtils.getSubject().getPrincipal();
+			if(adminUser!=null && adminUser.getId().intValue()==user.getId().intValue()) {
+				logger.debug("更新自己的信息，退出重新登录！adminUser="+adminUser);
+				SecurityUtils.getSubject().logout();
 			}
 		}else{
 			//判断用户是否已经存在

@@ -26,7 +26,7 @@ $(function() {
 function updateRole(id) {
     //isNaN是数字返回false
     if(id!=null && !isNaN(id)){
-        window.location.href="/auth/updateRole/"+id;
+        window.location.href="/auth/updateRole/"+id+"?callback="+getCallback();
     }else{
         layer.alert("请求参数有误，请您稍后再试");
     }

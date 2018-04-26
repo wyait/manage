@@ -8,7 +8,7 @@ console.log("pathUrl:"+pathUri);
 $(function(){
     layui.use('element', function(){
         var element = layui.element;
-        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        // 左侧导航区域（可配合layui已有的垂直导航）
         $.get("/auth/getUserPerms",function(data){
             if(data!=null){
                 getMenus(data);

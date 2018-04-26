@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+       xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head th:include="layout :: htmlhead" th:with="title='用户管理'"></head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -44,6 +45,7 @@
         <button class="layui-btn layui-btn-normal" onclick="nolockUser()">解锁</button>
 
         <table id="uesrList" lay-filter="userTable"></table>
+        <div style="display:none;" id="currentUser"><shiro:principal property="id"></shiro:principal></div>
 
         <script type="text/html" id="jobTpl">
             {{#  if(!d.job){ }}
@@ -89,7 +91,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">密码</label>
                 <div class="layui-input-inline">
-                    <input id="password" name="password" autocomplete="off" class="layui-input" type="password"/>
+                    <input id="password" name="password" autocomplete="off" class="layui-input" type="password"  placeholder="默认密码：654321" />
                 </div>
                 <div class="layui-form-mid layui-word-aux">请填写6位以上的密码</div>
             </div>

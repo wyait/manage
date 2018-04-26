@@ -1,5 +1,6 @@
 package com.wyait.manage.filter;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayDeque;
@@ -7,6 +8,7 @@ import java.util.Deque;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wyait.manage.entity.ResponseResult;
@@ -81,6 +83,26 @@ public class KickoutSessionFilter extends AccessControlFilter {
 		// 没有登录授权 且没有记住我
 		if (!subject.isAuthenticated() && !subject.isRemembered()) {
 			// 如果没有登录，直接进行之后的流程
+			//判断是不是Ajax请求，异步请求，直接响应返回未登录
+			ResponseResult responseResult = new ResponseResult();
+			if (ShiroFilterUtils.isAjax(request) ) {
+				logger.debug(getClass().getName()+ "当前用户已经在其他地方登录，并且是Ajax请求！");
+				responseResult.setCode(IStatusMessage.SystemStatus.MANY_LOGINS.getCode());
+				responseResult.setMessage("您已在别处登录，请您修改密码或重新登录");
+				out(response, responseResult);
+				return false;
+			}else{
+				return true;
+			}
+		}
+		// 获得用户请求的URI
+		HttpServletRequest req=(HttpServletRequest) request;
+		String path = req.getRequestURI();
+		logger.debug("===当前请求的uri：==" + path);
+		//String contextPath = req.getContextPath();
+		//logger.debug("===当前请求的域名或ip+端口：==" + contextPath);
+		//放行登录
+		if(path.equals("/toLogin")){
 			return true;
 		}
 		Session session = subject.getSession();
@@ -144,31 +166,20 @@ public class KickoutSessionFilter extends AccessControlFilter {
 				saveRequest(request);
 				logger.debug("==踢出后用户重定向的路径kickoutUrl:" + kickoutUrl);
 				// ajax请求
-				/**
-				 * 判断是否已经踢出
-				 * 1.如果是Ajax 访问，那么给予json返回值提示。
-				 * 2.如果是普通请求，直接跳转到登录页
-				 */
-				//判断是不是Ajax请求
-				ResponseResult responseResult = new ResponseResult();
-				if (ShiroFilterUtils.isAjax(request) ) {
-					logger.debug(getClass().getName()+ "当前用户已经在其他地方登录，并且是Ajax请求！");
-					responseResult.setCode(IStatusMessage.SystemStatus.MANY_LOGINS.getCode());
-					responseResult.setMessage("您已在别处登录，请您修改密码或重新登录");
-					out(response, responseResult);
-				}else{
-					// 重定向
-					WebUtils.issueRedirect(request, response, kickoutUrl);
-				}
 				// 重定向
 				//WebUtils.issueRedirect(request, response, kickoutUrl);
-				return false;
+				return isAjaxResponse(request,response);
 			}
 			return true;
 		} catch (Exception e) { // ignore
-			//重定向到登录界面
-			WebUtils.issueRedirect(request, response, "/login");
-			return false;
+			logger.error(
+					"控制用户在线数量【lyd-admin-->KickoutSessionFilter.onAccessDenied】异常！",
+					e);
+			// 重启后，ajax请求，报错：java.lang.ClassCastException:
+			// com.lyd.admin.pojo.AdminUser cannot be cast to
+			// com.lyd.admin.pojo.AdminUser
+			// 处理 ajax请求
+			return isAjaxResponse(request,response);
 		}
 	}
 	/**
@@ -195,6 +206,28 @@ public class KickoutSessionFilter extends AccessControlFilter {
 				out.close();
 			}
 		}
+	}
+
+	private boolean isAjaxResponse(ServletRequest request,
+			ServletResponse response) throws IOException {
+		// ajax请求
+		/**
+		 * 判断是否已经踢出
+		 * 1.如果是Ajax 访问，那么给予json返回值提示。
+		 * 2.如果是普通请求，直接跳转到登录页
+		 */
+		//判断是不是Ajax请求
+		ResponseResult responseResult = new ResponseResult();
+		if (ShiroFilterUtils.isAjax(request) ) {
+			logger.debug(getClass().getName()+ "当前用户已经在其他地方登录，并且是Ajax请求！");
+			responseResult.setCode(IStatusMessage.SystemStatus.MANY_LOGINS.getCode());
+			responseResult.setMessage("您已在别处登录，请您修改密码或重新登录");
+			out(response, responseResult);
+		}else{
+			// 重定向
+			WebUtils.issueRedirect(request, response, kickoutUrl);
+		}
+		return false;
 	}
 
 }
