@@ -57,7 +57,11 @@
 
         <script type="text/html" id="optBar">
             <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            {{#  if(d.del){ }}
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="recover">恢复</a>
+            {{#  } else { }}
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            {{#  } }}
         </script>
     </div>
 

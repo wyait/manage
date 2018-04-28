@@ -103,15 +103,13 @@ function setJobUser(obj,id,name,checked){
                 });
             }else{
                 layer.alert(data);//弹出错误提示
-                //加载load方法
-                load(obj);
             }
         });
     }, function(){
         layer.closeAll();
-      //加载load方法
-        load(obj);
     });
+    //加载load方法
+    load(obj);
 }
 //提交表单
 function formSubmit(obj){
@@ -240,8 +238,10 @@ function openUser(id,title){
 }
 function getUserAndRoles(obj,id) {
 	//如果已经离职，提醒不可编辑和删除
-    if(obj.job){
-        layer.alert("该用户已经离职，不可进行编辑；如需编辑，请设置为'在职'状态。");
+	if(obj.job){
+        layer.alert("该用户已经离职，不可进行编辑；</br>  如需编辑，请设置为<font style='font-weight:bold;' color='green'>在职</font>状态。");
+    }else if(obj.del){
+        layer.alert("该用户已经删除，不可进行编辑；</br>  如需编辑，请先<font style='font-weight:bold;' color='blue'>恢复</font>用户状态。");
     }else{
 	    //回显数据
 	    $.get("/user/getUserAndRoles",{"id":id},function(data){
@@ -309,6 +309,31 @@ function delUser(obj,id,name) {
 	            layer.closeAll();
 	        });
         }
+    }
+}
+function recoverUser(obj,id) {
+    //console.log("需要恢复的用户id="+id);
+    if(null!=id){
+        layer.confirm('您确定要恢复'+name+'用户吗？', {
+            btn: ['确认','返回'] //按钮
+        }, function(){
+            $.post("/user/recoverUser",{"id":id},function(data){
+                if(isLogin(data)){
+                    if(data=="ok"){
+                        //回调弹框
+                        layer.alert("恢复成功！",function(){
+                            layer.closeAll();
+                            //加载load方法
+                            load(obj);//自定义
+                        });
+                    }else{
+                        layer.alert(data);//弹出错误提示
+                    }
+                }
+            });
+        }, function(){
+            layer.closeAll();
+        });
     }
 }
 //解锁用户
