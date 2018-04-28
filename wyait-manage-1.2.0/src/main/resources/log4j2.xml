@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
 <!--Configuration后面的status，这个用于设置log4j2自身内部的信息输出，可以不设置，当设置成trace时，你会看到log4j2内部各种详细输出；可以设置成OFF(关闭)或Error(只输出错误信息) -->
 <!--monitorInterval：Log4j2能够自动检测修改配置 文件和重新配置本身，设置间隔秒数 -->
 <Configuration status="WARN" monitorInterval="30">

@@ -128,6 +128,41 @@ public class UserController {
 	}
 
 	/**
+	 *
+	 * @描述：恢复用户
+	 * @创建人：wyait
+	 * @创建时间：2018年4月27日 上午9:49:14
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/recoverUser", method = RequestMethod.POST)
+	@ResponseBody
+	public String recoverUser(@RequestParam("id") Integer id) {
+		logger.debug("恢复用户！id:" + id);
+		try {
+			User existUser = (User) SecurityUtils.getSubject()
+					.getPrincipal();
+			if (null == existUser) {
+				return "您未登录或登录超时，请您登录后再试";
+			}
+			if (null == id) {
+				return "请求参数有误，请您稍后再试";
+			}
+			// 删除用户
+			userService.setDelUser(id, 0, existUser.getId());
+			logger.info("恢复用户【" + this.getClass().getName()
+					+ ".recoverUser】成功！用户userId=" + id + "，操作的用户ID="
+					+ existUser.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("恢复用户【" + this.getClass().getName()
+					+ ".recoverUser】用户异常！", e);
+			return "操作异常，请您稍后再试";
+		}
+		return "ok";
+	}
+
+	/**
 	 * 设置用户[新增或更新]
 	 * @return ok/fail
 	 */
@@ -306,25 +341,26 @@ public class UserController {
 			return responseResult;
 		} else {
 			// 是否离职
-			if (existUser.getIsJob()) {
+			if (existUser.getIsJob() || existUser.getIsDel()) {
 				responseResult.setMessage("登录用户已离职，请您联系管理员");
 				logger.debug("用户登录，结果=responseResult:" + responseResult);
 				return responseResult;
 			}
 			// 校验验证码
-			/*
-			 * if(!existUser.getMcode().equals(user.getSmsCode())){ //不等
-			 * responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR.
-			 * getCode()); responseResult.setMessage("短信验证码输入有误");
-			 * logger.debug("用户登录，结果=responseResult:"+responseResult); return
-			 * responseResult; } //1分钟 long beginTime =
-			 * existUser.getSendTime().getTime(); long endTime = new
-			 * Date().getTime(); if(((endTime-beginTime)-60000>0)){
-			 * responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR.
-			 * getCode()); responseResult.setMessage("短信验证码超时");
-			 * logger.debug("用户登录，结果=responseResult:"+responseResult); return
-			 * responseResult; }
-			 */
+			/*if(!existUser.getMcode().equals(user.getSmsCode())){ //不等
+				 responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR.getCode());
+				 responseResult.setMessage("短信验证码输入有误");
+				 logger.debug("用户登录，结果=responseResult:"+responseResult);
+				 return responseResult;
+			} //1分钟
+			long beginTime =existUser.getSendTime().getTime();
+			long endTime = new Date().getTime();
+			if(((endTime-beginTime)-60000>0)){
+				 responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR.getCode());
+				 responseResult.setMessage("短信验证码超时");
+				 logger.debug("用户登录，结果=responseResult:"+responseResult);
+				 return responseResult;
+			}*/
 		}
 		// 用户登录
 		try {
@@ -361,13 +397,12 @@ public class UserController {
 			responseResult.setMessage(
 					"用户名或密码错误次数大于5次,账户已锁定!</br><span style='color:red;font-weight:bold; '>2分钟后可再次登录，或联系管理员解锁</span>");
 			// 这里结合了，另一种密码输错限制的实现，基于redis或mysql的实现；也可以直接使用RetryLimitHashedCredentialsMatcher限制5次
-		} /*
-			 * catch (DisabledAccountException sae){
-			 * logger.error("用户登录，用户验证未通过：帐号已经禁止登录！user=" +
-			 * user.getMobile(),sae);
-			 * responseResult.setCode(IStatusMessage.SystemStatus.ERROR.getCode(
-			 * )); responseResult.setMessage("帐号已经禁止登录"); }
-			 */catch (AuthenticationException ae) {
+		} /*catch (DisabledAccountException sae){
+			 logger.error("用户登录，用户验证未通过：帐号已经禁止登录！user=" +
+			 user.getMobile(),sae);
+			 responseResult.setCode(IStatusMessage.SystemStatus.ERROR.getCode());
+			 responseResult.setMessage("帐号已经禁止登录");
+		}*/catch (AuthenticationException ae) {
 			// 通过处理Shiro的运行时AuthenticationException就可以控制用户登录失败或密码错误时的情景
 			logger.error("用户登录，用户验证未通过：认证异常，异常信息如下！user=" + user.getMobile(),
 					ae);
@@ -428,19 +463,20 @@ public class UserController {
 			return responseResult;
 		} else {
 			// 校验验证码
-			/*
-			 * if(!existUser.getMcode().equals(user.getSmsCode())){ //不等
-			 * responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR.
-			 * getCode()); responseResult.setMessage("短信验证码输入有误");
-			 * logger.debug("用户登录，结果=responseResult:"+responseResult); return
-			 * responseResult; } //1分钟 long beginTime =
-			 * existUser.getSendTime().getTime(); long endTime = new
-			 * Date().getTime(); if(((endTime-beginTime)-60000>0)){
-			 * responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR.
-			 * getCode()); responseResult.setMessage("短信验证码超时");
-			 * logger.debug("用户登录，结果=responseResult:"+responseResult); return
-			 * responseResult; }
-			 */
+			/*if(!existUser.getMcode().equals(user.getSmsCode())){ //不等
+				 responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR.getCode());
+				 responseResult.setMessage("短信验证码输入有误");
+				 logger.debug("用户登录，结果=responseResult:"+responseResult);
+				 return responseResult;
+			} //1分钟
+			long beginTime =existUser.getSendTime().getTime();
+			long endTime = new Date().getTime();
+			if(((endTime-beginTime)-60000>0)){
+				 responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR.getCode());
+				 responseResult.setMessage("短信验证码超时");
+				 logger.debug("用户登录，结果=responseResult:"+responseResult);
+				 return responseResult;
+			}*/
 		}
 		// 是否锁定
 		boolean flag = false;
@@ -477,13 +513,12 @@ public class UserController {
 			responseResult.setMessage("用户名或密码错误次数大于5次,账户已锁定，2分钟后可再次登录或联系管理员解锁");
 			// 这里结合了，另一种密码输错限制的实现，基于redis或mysql的实现；也可以直接使用RetryLimitHashedCredentialsMatcher限制5次
 			flag = true;
-		} /*
-			 * catch (DisabledAccountException sae){
-			 * logger.error("用户登录，用户验证未通过：帐号已经禁止登录！user=" +
-			 * user.getMobile(),sae);
-			 * responseResult.setCode(IStatusMessage.SystemStatus.ERROR.getCode(
-			 * )); responseResult.setMessage("帐号已经禁止登录"); }
-			 */catch (AuthenticationException ae) {
+		}/*catch (DisabledAccountException sae){
+			 logger.error("用户登录，用户验证未通过：帐号已经禁止登录！user=" +
+			 user.getMobile(),sae);
+			 responseResult.setCode(IStatusMessage.SystemStatus.ERROR.getCode());
+			 responseResult.setMessage("帐号已经禁止登录");
+		}*/catch (AuthenticationException ae) {
 			// 通过处理Shiro的运行时AuthenticationException就可以控制用户登录失败或密码错误时的情景
 			logger.error("用户登录，用户验证未通过：认证异常，异常信息如下！user=" + user.getMobile(),
 					ae);
@@ -600,20 +635,20 @@ public class UserController {
 				return responseResult;
 			} else {
 				// 校验验证码
-				/*
-				 * if(!existUser.getMcode().equals(mobileCode)){ //不等
-				 * responseResult.setMessage("短信验证码输入有误");
-				 * responseResult.setCode(IStatusMessage.SystemStatus.NO_LOGIN.
-				 * getCode());
-				 * logger.debug("用户登录，结果=responseResult:"+responseResult);
-				 * return responseResult; } //1分钟 long beginTime =
-				 * existUser.getSendTime().getTime(); long endTime = new
-				 * Date().getTime(); if(((endTime-beginTime)-60000>0)){
-				 * responseResult.setCode(IStatusMessage.SystemStatus.ERROR.
-				 * getCode()); responseResult.setMessage("短信验证码超时");
-				 * logger.debug("用户登录，结果=responseResult:"+responseResult);
-				 * return responseResult; }
-				 */
+				/*if(!existUser.getMcode().equals(user.getSmsCode())){ //不等
+					 responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR.getCode());
+					 responseResult.setMessage("短信验证码输入有误");
+					 logger.debug("用户登录，结果=responseResult:"+responseResult);
+					 return responseResult;
+				} //1分钟
+				long beginTime =existUser.getSendTime().getTime();
+				long endTime = new Date().getTime();
+				if(((endTime-beginTime)-60000>0)){
+					 responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR.getCode());
+					 responseResult.setMessage("短信验证码超时");
+					 logger.debug("用户登录，结果=responseResult:"+responseResult);
+					 return responseResult;
+				}*/
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

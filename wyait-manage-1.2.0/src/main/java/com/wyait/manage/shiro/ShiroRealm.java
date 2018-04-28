@@ -115,4 +115,11 @@ public class ShiroRealm extends AuthorizingRealm {
 					getName());
 		}
 	}
+
+	/**
+	 * 清除所有缓存【实测无效】
+	 */
+	public void clearCachedAuth(){
+		this.clearCachedAuthorizationInfo(SecurityUtils.getSubject().getPrincipals());
+	}
 }

@@ -13,11 +13,14 @@ import com.wyait.manage.entity.UserSearchDTO;
 import com.wyait.manage.pojo.Role;
 import com.wyait.manage.pojo.User;
 import com.wyait.manage.pojo.UserRoleKey;
+import com.wyait.manage.shiro.ShiroRealm;
 import com.wyait.manage.utils.PageDataResult;
 import com.wyait.manage.utils.SendMsgServer;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.mgt.RealmSecurityManager;
+import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,6 +136,16 @@ public class UserServiceImpl implements UserService {
 				logger.debug("更新自己的信息，退出重新登录！adminUser="+adminUser);
 				SecurityUtils.getSubject().logout();
 			}
+			//TODO 如果是其他用户；更新其用户信息，如果该用户已在线；
+			//方案一【不推荐】：通过SessionDAO拿到所有在线的用户，Collection<Session> sessions = sessionDAO.getActiveSessions();
+			//遍历找到匹配的，更新他的信息【不推荐，分布式或用户数量太大的时候，会有问题。】；
+			//方案二【推荐】：用户信息价格flag（或version）标记，写个拦截器，每次请求判断flag（或version）是否改动，如有改动，请重新登录或自动更新用户信息（推荐）；
+
+			//清除ehcache中所有用户权限缓存，必须触发鉴权方法才能执行授权方法doGetAuthorizationInfo
+			RealmSecurityManager rsm = (RealmSecurityManager)SecurityUtils.getSecurityManager();
+			ShiroRealm authRealm = (ShiroRealm)rsm.getRealms().iterator().next();
+			authRealm.clearCachedAuth();
+			logger.debug("清除所有用户权限缓存！！！");
 		}else{
 			//判断用户是否已经存在
 			User existUser=this.userMapper.findUserByMobile(user.getMobile());

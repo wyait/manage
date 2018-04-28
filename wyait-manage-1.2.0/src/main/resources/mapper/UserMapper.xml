@@ -181,7 +181,7 @@
     select
     id, username, mobile, email, insert_uid, insert_time, update_time, is_del,is_job
     from user
-    WHERE is_del=0
+    <where>
     <if test="userSearch.umobile!=null and userSearch.umobile!=''">
       AND mobile =#{userSearch.umobile}
     </if>
@@ -194,6 +194,7 @@
     <if test="userSearch.insertTimeEnd!=null and userSearch.insertTimeEnd!=''">
       AND insert_time &lt;= #{userSearch.insertTimeEnd}
     </if>
+    </where>
     ORDER BY insert_time DESC
   </select>
   <!--=End getUsers 分页查询用户列表-->
@@ -205,7 +206,7 @@
     is_job = #{isJob,jdbcType=INTEGER},
     insert_uid = #{insertUid,jdbcType=INTEGER},
     update_time=NOW()
-    where id = #{id,jdbcType=INTEGER} AND is_del=0
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <!--=Start setJobUser 设置用户是否离职-->
 
@@ -261,7 +262,7 @@
     select
     id, username, mobile,password, email, insert_uid insertUid, insert_time insertTime, update_time, is_del,is_job,mcode,send_time sendTime
     from user
-    WHERE mobile=#{mobile} and is_del=0
+    WHERE mobile=#{mobile}
   </select>
   <!--=End findUserByMobile 根据手机号查找用户-->
   <!--=Start findUserByName 根据用户名获取用户数据-->
@@ -269,7 +270,7 @@
     select
     id, username, mobile, email, insert_uid insertUid, insert_time insertTime, update_time updateTime, is_del isDel,is_job isJob,mcode,send_time sendTime
     from user
-    WHERE username=#{username} and is_del=0
+    WHERE username=#{username}
   </select>
   <!--=End findUserByName 根据用户名查找用户-->
   <!--=Start updatePwd 修改用户密码-->

@@ -92,7 +92,7 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/home", "anon");
 //		/*filterChainDefinitionMap.put("/page", "anon");
 //		filterChainDefinitionMap.put("/channel/record", "anon");*/
-//
+		filterChainDefinitionMap.put("/user/delUser", "authc,perms[usermanage]");
 //		//add操作，该用户必须有【addOperation】权限
 ////		filterChainDefinitionMap.put("/add", "perms[addOperation]");
 //
