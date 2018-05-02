@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
@@ -103,10 +102,13 @@ public class UserController {
 	@RequestMapping(value = "/setJobUser", method = RequestMethod.POST)
 	@ResponseBody
 	public String setJobUser(@RequestParam("id") Integer id,
-			@RequestParam("job") Integer isJob) {
-		logger.debug("设置用户是否离职！id:" + id + ",isJob:" + isJob);
+			@RequestParam("job") Integer isJob,
+			@RequestParam("version") Integer version) {
+		logger.debug("设置用户是否离职！id:" + id + ",isJob:" + isJob + ",version:"
+				+ version);
+		String msg = "";
 		try {
-			if (null == id || null == isJob) {
+			if (null == id || null == isJob || null == version) {
 				logger.debug("设置用户是否离职，结果=请求参数有误，请您稍后再试");
 				return "请求参数有误，请您稍后再试";
 			}
@@ -116,50 +118,15 @@ public class UserController {
 				return "您未登录或登录超时，请您登录后再试";
 			}
 			// 设置用户是否离职
-			userService.setJobUser(id, isJob,existUser.getId());
+			msg = userService.setJobUser(id, isJob, existUser.getId(),version);
 			logger.info("设置用户是否离职成功！userID=" + id + ",isJob:" + isJob
 					+ "，操作的用户ID=" + existUser.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("设置用户是否离职异常！", e);
-			return "操作异常，请您稍后再试！";
+			msg = "操作异常，请您稍后再试！";
 		}
-		return "ok";
-	}
-
-	/**
-	 *
-	 * @描述：恢复用户
-	 * @创建人：wyait
-	 * @创建时间：2018年4月27日 上午9:49:14
-	 * @param id
-	 * @return
-	 */
-	@RequestMapping(value = "/recoverUser", method = RequestMethod.POST)
-	@ResponseBody
-	public String recoverUser(@RequestParam("id") Integer id) {
-		logger.debug("恢复用户！id:" + id);
-		try {
-			User existUser = (User) SecurityUtils.getSubject()
-					.getPrincipal();
-			if (null == existUser) {
-				return "您未登录或登录超时，请您登录后再试";
-			}
-			if (null == id) {
-				return "请求参数有误，请您稍后再试";
-			}
-			// 删除用户
-			userService.setDelUser(id, 0, existUser.getId());
-			logger.info("恢复用户【" + this.getClass().getName()
-					+ ".recoverUser】成功！用户userId=" + id + "，操作的用户ID="
-					+ existUser.getId());
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("恢复用户【" + this.getClass().getName()
-					+ ".recoverUser】用户异常！", e);
-			return "操作异常，请您稍后再试";
-		}
-		return "ok";
+		return msg;
 	}
 
 	/**
@@ -175,7 +142,7 @@ public class UserController {
 				logger.debug("置用户[新增或更新]，结果=请您填写用户信息");
 				return "请您填写用户信息";
 			}
-			if( StringUtils.isEmpty(roleIds)){
+			if (StringUtils.isEmpty(roleIds)) {
 				logger.debug("置用户[新增或更新]，结果=请您给用户设置角色");
 				return "请您给用户设置角色";
 			}
@@ -202,10 +169,12 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/delUser", method = RequestMethod.POST)
 	@ResponseBody
-	public String delUser(@RequestParam("id") Integer id) {
+	public String delUser(@RequestParam("id") Integer id,
+			@RequestParam("version") Integer version) {
 		logger.debug("删除用户！id:" + id);
+		String msg = "";
 		try {
-			if (null == id) {
+			if (null == id || null == version) {
 				logger.debug("删除用户，结果=请求参数有误，请您稍后再试");
 				return "请求参数有误，请您稍后再试";
 			}
@@ -215,14 +184,50 @@ public class UserController {
 				return "您未登录或登录超时，请您登录后再试";
 			}
 			// 删除用户
-			userService.setDelUser(id, 1,existUser.getId());
-			logger.info("删除用户成功！userId=" + id+"，操作用户id:"+existUser.getId());
+			msg = userService.setDelUser(id, 1, existUser.getId(), version);
+			logger.info("删除用户:" + msg + "。userId=" + id + "，操作用户id:"
+					+ existUser.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("删除用户异常！", e);
-			return "操作异常，请您稍后再试";
+			msg = "操作异常，请您稍后再试";
 		}
-		return "ok";
+		return msg;
+	}
+
+	/**
+	 *
+	 * @描述：恢复用户
+	 * @创建人：wyait
+	 * @创建时间：2018年4月27日 上午9:49:14
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/recoverUser", method = RequestMethod.POST)
+	@ResponseBody
+	public String recoverUser(@RequestParam("id") Integer id,
+			@RequestParam("version") Integer version) {
+		logger.debug("恢复用户！id:" + id);
+		String msg = "";
+		try {
+			User existUser = (User) SecurityUtils.getSubject().getPrincipal();
+			if (null == existUser) {
+				return "您未登录或登录超时，请您登录后再试";
+			}
+			if (null == id || null == version) {
+				return "请求参数有误，请您稍后再试";
+			}
+			// 删除用户
+			msg = userService.setDelUser(id, 0, existUser.getId(), version);
+			logger.info("恢复用户【" + this.getClass().getName() + ".recoverUser】"
+					+ msg + "。用户userId=" + id + "，操作的用户ID=" + existUser.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("恢复用户【" + this.getClass().getName()
+					+ ".recoverUser】用户异常！", e);
+			msg = "操作异常，请您稍后再试";
+		}
+		return msg;
 	}
 
 	/**
@@ -231,10 +236,8 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/getUserAndRoles", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> getUserAndRoles(@RequestParam("id") Integer id,HttpServletRequest request) {
+	public Map<String, Object> getUserAndRoles(@RequestParam("id") Integer id) {
 		logger.debug("查询用户数据！id:" + id);
-		logger.debug("session设置的有效时间："+request.getSession().getMaxInactiveInterval());
-		logger.debug("shiro中session设置的有效时间："+SecurityUtils.getSubject().getSession().getTimeout());
 		Map<String, Object> map = new HashMap<>();
 		try {
 			if (null == id) {
@@ -279,8 +282,8 @@ public class UserController {
 		ResponseResult responseResult = new ResponseResult();
 		try {
 			if (null == user) {
-				responseResult.setCode(
-						IStatusMessage.SystemStatus.PARAM_ERROR.getCode());
+				responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR
+						.getCode());
 				responseResult.setMessage("请求参数有误，请您稍后再试");
 				logger.debug("发送短信验证码，结果=responseResult:" + responseResult);
 				return responseResult;
@@ -293,8 +296,8 @@ public class UserController {
 			// String msg=userService.sendMsg(user);
 			String msg = "ok";
 			if (msg != "ok") {
-				responseResult
-						.setCode(IStatusMessage.SystemStatus.ERROR.getCode());
+				responseResult.setCode(IStatusMessage.SystemStatus.ERROR
+						.getCode());
 				responseResult.setMessage(msg == "no" ? "发送验证码失败，请您稍后再试" : msg);
 			}
 		} catch (Exception e) {
@@ -317,14 +320,15 @@ public class UserController {
 	 */
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseResult login(UserDTO user,
+	public ResponseResult login(
+			UserDTO user,
 			@RequestParam(value = "rememberMe", required = false) boolean rememberMe) {
 		logger.debug("用户登录，请求参数=user:" + user + "，是否记住我：" + rememberMe);
 		ResponseResult responseResult = new ResponseResult();
 		responseResult.setCode(IStatusMessage.SystemStatus.ERROR.getCode());
 		if (null == user) {
-			responseResult
-					.setCode(IStatusMessage.SystemStatus.PARAM_ERROR.getCode());
+			responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR
+					.getCode());
 			responseResult.setMessage("请求参数有误，请您稍后再试");
 			logger.debug("用户登录，结果=responseResult:" + responseResult);
 			return responseResult;
@@ -341,17 +345,17 @@ public class UserController {
 			return responseResult;
 		} else {
 			// 是否离职
-			if (existUser.getIsJob() || existUser.getIsDel()) {
+			if (existUser.getIsJob()) {
 				responseResult.setMessage("登录用户已离职，请您联系管理员");
 				logger.debug("用户登录，结果=responseResult:" + responseResult);
 				return responseResult;
 			}
 			// 校验验证码
 			/*if(!existUser.getMcode().equals(user.getSmsCode())){ //不等
-				 responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR.getCode());
-				 responseResult.setMessage("短信验证码输入有误");
-				 logger.debug("用户登录，结果=responseResult:"+responseResult);
-				 return responseResult;
+			 responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR.getCode());
+			 responseResult.setMessage("短信验证码输入有误");
+			 logger.debug("用户登录，结果=responseResult:"+responseResult);
+			 return responseResult;
 			} //1分钟
 			long beginTime =existUser.getSendTime().getTime();
 			long endTime = new Date().getTime();
@@ -375,10 +379,8 @@ public class UserController {
 			// 所以这一步在调用login(token)方法时,它会走到MyRealm.doGetAuthenticationInfo()方法中,具体验证方式详见此方法
 			logger.debug("用户登录，用户验证开始！user=" + user.getMobile());
 			subject.login(token);
-			//session有效时间1天（毫秒）
-			SecurityUtils.getSubject().getSession().setTimeout(86400000);
-			responseResult
-					.setCode(IStatusMessage.SystemStatus.SUCCESS.getCode());
+			responseResult.setCode(IStatusMessage.SystemStatus.SUCCESS
+					.getCode());
 			logger.info("用户登录，用户验证通过！user=" + user.getMobile());
 		} catch (UnknownAccountException uae) {
 			logger.error("用户登录，用户验证未通过：未知用户！user=" + user.getMobile(), uae);
@@ -392,33 +394,30 @@ public class UserController {
 			logger.error("用户登录，用户验证未通过：账户已锁定！user=" + user.getMobile(), lae);
 			responseResult.setMessage("账户已锁定");
 		} catch (ExcessiveAttemptsException eae) {
-			logger.error("用户登录，用户验证未通过：错误次数大于5次,账户已锁定！user=.getMobile()" + user,
-					eae);
-			responseResult.setMessage(
-					"用户名或密码错误次数大于5次,账户已锁定!</br><span style='color:red;font-weight:bold; '>2分钟后可再次登录，或联系管理员解锁</span>");
+			logger.error(
+					"用户登录，用户验证未通过：错误次数大于5次,账户已锁定！user=.getMobile()" + user, eae);
+			responseResult
+					.setMessage("用户名或密码错误次数大于5次,账户已锁定!</br><span style='color:red;font-weight:bold; '>2分钟后可再次登录，或联系管理员解锁</span>");
 			// 这里结合了，另一种密码输错限制的实现，基于redis或mysql的实现；也可以直接使用RetryLimitHashedCredentialsMatcher限制5次
 		} /*catch (DisabledAccountException sae){
-			 logger.error("用户登录，用户验证未通过：帐号已经禁止登录！user=" +
-			 user.getMobile(),sae);
-			 responseResult.setCode(IStatusMessage.SystemStatus.ERROR.getCode());
-			 responseResult.setMessage("帐号已经禁止登录");
+		 logger.error("用户登录，用户验证未通过：帐号已经禁止登录！user=" +
+		 user.getMobile(),sae);
+		 responseResult.setCode(IStatusMessage.SystemStatus.ERROR.getCode());
+		 responseResult.setMessage("帐号已经禁止登录");
 		}*/catch (AuthenticationException ae) {
 			// 通过处理Shiro的运行时AuthenticationException就可以控制用户登录失败或密码错误时的情景
 			logger.error("用户登录，用户验证未通过：认证异常，异常信息如下！user=" + user.getMobile(),
 					ae);
 			responseResult.setMessage("用户名或密码不正确");
 		} catch (Exception e) {
-			logger.error("用户登录，用户验证未通过：操作异常，异常信息如下！user=" + user.getMobile(),
-					e);
+			logger.error("用户登录，用户验证未通过：操作异常，异常信息如下！user=" + user.getMobile(), e);
 			responseResult.setMessage("用户登录失败，请您稍后再试");
 		}
 		Cache<String, AtomicInteger> passwordRetryCache = ecm
 				.getCache("passwordRetryCache");
 		if (null != passwordRetryCache) {
-			int retryNum = (passwordRetryCache
-					.get(existUser.getMobile()) == null ? 0
-							: passwordRetryCache.get(existUser.getMobile()))
-									.intValue();
+			int retryNum = (passwordRetryCache.get(existUser.getMobile()) == null ? 0
+					: passwordRetryCache.get(existUser.getMobile())).intValue();
 			logger.debug("输错次数：" + retryNum);
 			if (retryNum > 0 && retryNum < 6) {
 				responseResult.setMessage("用户名或密码错误" + retryNum + "次,再输错"
@@ -439,14 +438,15 @@ public class UserController {
 	 */
 	@RequestMapping(value = "logina", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseResult logina(UserDTO user,
+	public ResponseResult logina(
+			UserDTO user,
 			@RequestParam(value = "rememberMe", required = false) boolean rememberMe) {
 		logger.debug("用户登录，请求参数=user:" + user + "，是否记住我：" + rememberMe);
 		ResponseResult responseResult = new ResponseResult();
 		responseResult.setCode(IStatusMessage.SystemStatus.ERROR.getCode());
 		if (null == user) {
-			responseResult
-					.setCode(IStatusMessage.SystemStatus.PARAM_ERROR.getCode());
+			responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR
+					.getCode());
 			responseResult.setMessage("请求参数有误，请您稍后再试");
 			logger.debug("用户登录，结果=responseResult:" + responseResult);
 			return responseResult;
@@ -464,10 +464,10 @@ public class UserController {
 		} else {
 			// 校验验证码
 			/*if(!existUser.getMcode().equals(user.getSmsCode())){ //不等
-				 responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR.getCode());
-				 responseResult.setMessage("短信验证码输入有误");
-				 logger.debug("用户登录，结果=responseResult:"+responseResult);
-				 return responseResult;
+			 responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR.getCode());
+			 responseResult.setMessage("短信验证码输入有误");
+			 logger.debug("用户登录，结果=responseResult:"+responseResult);
+			 return responseResult;
 			} //1分钟
 			long beginTime =existUser.getSendTime().getTime();
 			long endTime = new Date().getTime();
@@ -493,8 +493,8 @@ public class UserController {
 			// 所以这一步在调用login(token)方法时,它会走到MyRealm.doGetAuthenticationInfo()方法中,具体验证方式详见此方法
 			logger.debug("用户登录，用户验证开始！user=" + user.getMobile());
 			subject.login(token);
-			responseResult
-					.setCode(IStatusMessage.SystemStatus.SUCCESS.getCode());
+			responseResult.setCode(IStatusMessage.SystemStatus.SUCCESS
+					.getCode());
 			logger.info("用户登录，用户验证通过！user=" + user.getMobile());
 		} catch (UnknownAccountException uae) {
 			logger.error("用户登录，用户验证未通过：未知用户！user=" + user.getMobile(), uae);
@@ -508,32 +508,31 @@ public class UserController {
 			logger.error("用户登录，用户验证未通过：账户已锁定！user=" + user.getMobile(), lae);
 			responseResult.setMessage("账户已锁定");
 		} catch (ExcessiveAttemptsException eae) {
-			logger.error("用户登录，用户验证未通过：错误次数大于5次,账户已锁定！user=.getMobile()" + user,
-					eae);
+			logger.error(
+					"用户登录，用户验证未通过：错误次数大于5次,账户已锁定！user=.getMobile()" + user, eae);
 			responseResult.setMessage("用户名或密码错误次数大于5次,账户已锁定，2分钟后可再次登录或联系管理员解锁");
 			// 这里结合了，另一种密码输错限制的实现，基于redis或mysql的实现；也可以直接使用RetryLimitHashedCredentialsMatcher限制5次
 			flag = true;
-		}/*catch (DisabledAccountException sae){
-			 logger.error("用户登录，用户验证未通过：帐号已经禁止登录！user=" +
-			 user.getMobile(),sae);
-			 responseResult.setCode(IStatusMessage.SystemStatus.ERROR.getCode());
-			 responseResult.setMessage("帐号已经禁止登录");
+		} /*catch (DisabledAccountException sae){
+		 logger.error("用户登录，用户验证未通过：帐号已经禁止登录！user=" +
+		 user.getMobile(),sae);
+		 responseResult.setCode(IStatusMessage.SystemStatus.ERROR.getCode());
+		 responseResult.setMessage("帐号已经禁止登录");
 		}*/catch (AuthenticationException ae) {
 			// 通过处理Shiro的运行时AuthenticationException就可以控制用户登录失败或密码错误时的情景
 			logger.error("用户登录，用户验证未通过：认证异常，异常信息如下！user=" + user.getMobile(),
 					ae);
 			responseResult.setMessage("用户名或密码不正确");
 		} catch (Exception e) {
-			logger.error("用户登录，用户验证未通过：操作异常，异常信息如下！user=" + user.getMobile(),
-					e);
+			logger.error("用户登录，用户验证未通过：操作异常，异常信息如下！user=" + user.getMobile(), e);
 			responseResult.setMessage("用户登录失败，请您稍后再试");
 		}
 		if (flag) {
 			// 已经输错6次了，将进行锁定！【也可以使用redis记录密码输错次数，然后进行锁定//TODO】
 			int num = this.userService.setUserLockNum(existUser.getId(), 1);
 			if (num < 1) {
-				logger.info(
-						"用户登录，用户名或密码错误次数大于5次,账户锁定失败！user=" + user.getMobile());
+				logger.info("用户登录，用户名或密码错误次数大于5次,账户锁定失败！user="
+						+ user.getMobile());
 			}
 		}
 		logger.debug("用户登录，user=" + user.getMobile() + ",登录结果=responseResult:"
@@ -555,15 +554,15 @@ public class UserController {
 		ResponseResult responseResult = new ResponseResult();
 		try {
 			if (!ValidateUtil.isMobilephone(mobile)) {
-				responseResult.setCode(
-						IStatusMessage.SystemStatus.PARAM_ERROR.getCode());
+				responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR
+						.getCode());
 				responseResult.setMessage("手机号格式有误，请您重新填写");
 				logger.debug("发送短信验证码，结果=responseResult:" + responseResult);
 				return responseResult;
 			}
 			if (!ValidateUtil.isPicCode(picCode)) {
-				responseResult.setCode(
-						IStatusMessage.SystemStatus.PARAM_ERROR.getCode());
+				responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR
+						.getCode());
 				responseResult.setMessage("图片验证码有误，请您重新填写");
 				logger.debug("发送短信验证码，结果=responseResult:" + responseResult);
 				return responseResult;
@@ -571,8 +570,8 @@ public class UserController {
 			// 判断用户是否登录
 			User existUser = (User) SecurityUtils.getSubject().getPrincipal();
 			if (null == existUser) {
-				responseResult.setCode(
-						IStatusMessage.SystemStatus.NO_LOGIN.getCode());
+				responseResult.setCode(IStatusMessage.SystemStatus.NO_LOGIN
+						.getCode());
 				responseResult.setMessage("您未登录或登录超时，请您重新登录后再试");
 				logger.debug("发送短信验证码，结果=responseResult:" + responseResult);
 				return responseResult;
@@ -581,8 +580,8 @@ public class UserController {
 			// String msg=userService.sendMessage(existUser.getId(),mobile);
 			String msg = "ok";
 			if (msg != "ok") {
-				responseResult
-						.setCode(IStatusMessage.SystemStatus.ERROR.getCode());
+				responseResult.setCode(IStatusMessage.SystemStatus.ERROR
+						.getCode());
 				responseResult.setMessage(msg == "no" ? "发送验证码失败，请您稍后再试" : msg);
 			}
 		} catch (Exception e) {
@@ -609,8 +608,8 @@ public class UserController {
 		logger.debug("修改密码之确认手机号！mobile:" + mobile + ",picCode=" + picCode
 				+ ",mobileCode=" + mobileCode);
 		ResponseResult responseResult = new ResponseResult();
-		responseResult
-				.setCode(IStatusMessage.SystemStatus.PARAM_ERROR.getCode());
+		responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR
+				.getCode());
 		try {
 			if (!ValidateUtil.isMobilephone(mobile)) {
 				responseResult.setMessage("手机号格式有误，请您重新填写");
@@ -636,10 +635,10 @@ public class UserController {
 			} else {
 				// 校验验证码
 				/*if(!existUser.getMcode().equals(user.getSmsCode())){ //不等
-					 responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR.getCode());
-					 responseResult.setMessage("短信验证码输入有误");
-					 logger.debug("用户登录，结果=responseResult:"+responseResult);
-					 return responseResult;
+				 responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR.getCode());
+				 responseResult.setMessage("短信验证码输入有误");
+				 logger.debug("用户登录，结果=responseResult:"+responseResult);
+				 return responseResult;
 				} //1分钟
 				long beginTime =existUser.getSendTime().getTime();
 				long endTime = new Date().getTime();
@@ -678,15 +677,15 @@ public class UserController {
 		try {
 			if (!ValidateUtil.isSimplePassword(pwd)
 					|| !ValidateUtil.isSimplePassword(isPwd)) {
-				responseResult.setCode(
-						IStatusMessage.SystemStatus.PARAM_ERROR.getCode());
+				responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR
+						.getCode());
 				responseResult.setMessage("密码格式有误，请您重新填写");
 				logger.debug("修改密码，结果=responseResult:" + responseResult);
 				return responseResult;
 			}
 			if (!pwd.equals(isPwd)) {
-				responseResult.setCode(
-						IStatusMessage.SystemStatus.PARAM_ERROR.getCode());
+				responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR
+						.getCode());
 				responseResult.setMessage("两次密码输入不一致，请您重新填写");
 				logger.debug("发修改密码，结果=responseResult:" + responseResult);
 				return responseResult;
@@ -694,8 +693,8 @@ public class UserController {
 			// 判断用户是否登录
 			User existUser = (User) SecurityUtils.getSubject().getPrincipal();
 			if (null == existUser) {
-				responseResult.setCode(
-						IStatusMessage.SystemStatus.NO_LOGIN.getCode());
+				responseResult.setCode(IStatusMessage.SystemStatus.NO_LOGIN
+						.getCode());
 				responseResult.setMessage("您未登录或登录超时，请您重新登录后再试");
 				logger.debug("修改密码，结果=responseResult:" + responseResult);
 				return responseResult;
@@ -704,8 +703,8 @@ public class UserController {
 			int num = this.userService.updatePwd(existUser.getId(),
 					DigestUtils.md5Hex(pwd));
 			if (num != 1) {
-				responseResult
-						.setCode(IStatusMessage.SystemStatus.ERROR.getCode());
+				responseResult.setCode(IStatusMessage.SystemStatus.ERROR
+						.getCode());
 				responseResult.setMessage("操作失败，请您稍后再试");
 				logger.debug("修改密码失败，已经离职或该用户被删除！结果=responseResult:"
 						+ responseResult);
@@ -749,8 +748,7 @@ public class UserController {
 	 * @param response
 	 * @return
 	 */
-	protected boolean validatorRequestParam(Object obj,
-			ResponseResult response) {
+	protected boolean validatorRequestParam(Object obj, ResponseResult response) {
 		boolean flag = false;
 		Validator validator = new Validator();
 		List<ConstraintViolation> ret = validator.validate(obj);

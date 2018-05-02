@@ -27,6 +27,8 @@ public class UserRolesVO {
 
 	private List<UserRoleKey> userRoles;
 
+	private Integer version;
+
 	public Integer getId() {
 		return id;
 	}
@@ -115,12 +117,22 @@ public class UserRolesVO {
 		this.userRoles = userRoles;
 	}
 
-	@Override public String toString() {
-		return "UserRolesVO{" + "id=" + id + ", username='" + username + '\''
-				+ ", mobile='" + mobile + '\'' + ", email='" + email + '\''
-				+ ", password='" + password + '\'' + ", insertUid=" + insertUid
-				+ ", insertTime=" + insertTime + ", updateTime=" + updateTime
-				+ ", isDel=" + isDel + ", isJob=" + isJob + ", userRoles="
-				+ userRoles + '}';
+	public Integer getVersion() {
+		return version;
 	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
+
+	@Override
+	public String toString() {
+		return "UserRolesVO [id=" + id + ", username=" + username + ", mobile="
+				+ mobile + ", email=" + email + ", password=" + password
+				+ ", insertUid=" + insertUid + ", insertTime=" + insertTime
+				+ ", updateTime=" + updateTime + ", isDel=" + isDel
+				+ ", isJob=" + isJob + ", userRoles=" + userRoles
+				+ ", version=" + version + "]";
+	}
+
 }

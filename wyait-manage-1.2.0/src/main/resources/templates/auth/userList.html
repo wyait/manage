@@ -49,9 +49,9 @@
 
         <script type="text/html" id="jobTpl">
             {{#  if(!d.job){ }}
-            <input type="checkbox" name="{{d.username}}" value="{{d.id}}" lay-skin="switch" lay-text="在职|离职" lay-filter="isJobTpl" checked="checked" />
+            <input type="checkbox" name="{{d.username}}_{{d.version}}" value="{{d.id}}" lay-skin="switch" lay-text="在职|离职" lay-filter="isJobTpl" checked="checked" />
             {{#  } else { }}
-            <input type="checkbox" name="{{d.username}}" value="{{d.id}}" lay-skin="switch" lay-text="在职|离职" lay-filter="isJobTpl"/>
+            <input type="checkbox" name="{{d.username}}_{{d.version}}" value="{{d.id}}" lay-skin="switch" lay-text="在职|离职" lay-filter="isJobTpl"/>
             {{#  } }}
         </script>
 
@@ -72,6 +72,7 @@
             <input id="pageNum" type="hidden" name="pageNum"/>
             <input id="roleIds" type="hidden" name="roleIds"/>
             <input id="id" type="hidden" name="id"/>
+            <input id="version" type="hidden" name="version"/>
             <div class="layui-form-item">
                 <label class="layui-form-label">用户名</label>
                 <div class="layui-input-inline">

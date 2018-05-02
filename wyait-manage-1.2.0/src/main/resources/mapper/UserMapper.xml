@@ -1,294 +1,345 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.wyait.manage.dao.UserMapper" >
-  <resultMap id="BaseResultMap" type="com.wyait.manage.pojo.User">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
-    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="insert_uid" jdbcType="INTEGER" property="insertUid" />
-    <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="is_del" jdbcType="BIT" property="isDel" />
-    <result column="is_job" jdbcType="BIT" property="isJob" />
-    <result column="mcode" jdbcType="VARCHAR" property="mcode" />
-    <result column="send_time" jdbcType="TIMESTAMP" property="sendTime" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, username, mobile, email, password, insert_uid, insert_time, update_time, is_del,
-    is_job, mcode, send_time
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from user
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from user
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insertSelective" parameterType="com.wyait.manage.pojo.User">
-    insert into user
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="username != null">
-        username,
-      </if>
-      <if test="mobile != null">
-        mobile,
-      </if>
-      <if test="email != null">
-        email,
-      </if>
-      <if test="password != null">
-        password,
-      </if>
-      <if test="insertUid != null">
-        insert_uid,
-      </if>
-      <if test="insertTime != null">
-        insert_time,
-      </if>
-      <if test="updateTime != null">
-        update_time,
-      </if>
-      <if test="isDel != null">
-        is_del,
-      </if>
-      <if test="isJob != null">
-        is_job,
-      </if>
-      <if test="mcode != null">
-        mcode,
-      </if>
-      <if test="sendTime != null">
-        send_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="username != null">
-        #{username,jdbcType=VARCHAR},
-      </if>
-      <if test="mobile != null">
-        #{mobile,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null">
-        #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null">
-        #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="insertUid != null">
-        #{insertUid,jdbcType=INTEGER},
-      </if>
-      <if test="insertTime != null">
-        #{insertTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="isDel != null">
-        #{isDel,jdbcType=BIT},
-      </if>
-      <if test="isJob != null">
-        #{isJob,jdbcType=BIT},
-      </if>
-      <if test="mcode != null">
-        #{mcode,jdbcType=VARCHAR},
-      </if>
-      <if test="sendTime != null">
-        #{sendTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="com.wyait.manage.pojo.User">
-    update user
-    set username = #{username,jdbcType=VARCHAR},
-      mobile = #{mobile,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      insert_uid = #{insertUid,jdbcType=INTEGER},
-      insert_time = #{insertTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      is_del = #{isDel,jdbcType=BIT},
-      is_job = #{isJob,jdbcType=BIT},
-      mcode = #{mcode,jdbcType=VARCHAR},
-      send_time = #{sendTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+<mapper namespace="com.wyait.manage.dao.UserMapper">
+	<resultMap id="BaseResultMap" type="com.wyait.manage.pojo.User">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="username" jdbcType="VARCHAR" property="username" />
+		<result column="mobile" jdbcType="VARCHAR" property="mobile" />
+		<result column="email" jdbcType="VARCHAR" property="email" />
+		<result column="password" jdbcType="VARCHAR" property="password" />
+		<result column="insert_uid" jdbcType="INTEGER" property="insertUid" />
+		<result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="is_del" jdbcType="BIT" property="isDel" />
+		<result column="is_job" jdbcType="BIT" property="isJob" />
+		<result column="mcode" jdbcType="VARCHAR" property="mcode" />
+		<result column="send_time" jdbcType="TIMESTAMP" property="sendTime" />
+		<result column="version" jdbcType="INTEGER" property="version" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, username, mobile, email, password, insert_uid,
+		insert_time,
+		update_time, is_del,
+		is_job, mcode, send_time, version
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from user
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from user
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insertSelective" parameterType="com.wyait.manage.pojo.User">
+		insert into user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="username != null">
+				username,
+			</if>
+			<if test="mobile != null">
+				mobile,
+			</if>
+			<if test="email != null">
+				email,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+			<if test="insertUid != null">
+				insert_uid,
+			</if>
+			<if test="insertTime != null">
+				insert_time,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="isDel != null">
+				is_del,
+			</if>
+			<if test="isJob != null">
+				is_job,
+			</if>
+			<if test="mcode != null">
+				mcode,
+			</if>
+			<if test="sendTime != null">
+				send_time,
+			</if>
+			<if test="version != null">
+				version,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="username != null">
+				#{username,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				#{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="insertUid != null">
+				#{insertUid,jdbcType=INTEGER},
+			</if>
+			<if test="insertTime != null">
+				#{insertTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null">
+				#{isDel,jdbcType=BIT},
+			</if>
+			<if test="isJob != null">
+				#{isJob,jdbcType=BIT},
+			</if>
+			<if test="mcode != null">
+				#{mcode,jdbcType=VARCHAR},
+			</if>
+			<if test="sendTime != null">
+				#{sendTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="version != null">
+				#{version,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.wyait.manage.pojo.User">
+		update user
+		set
+		username = #{username,jdbcType=VARCHAR},
+		mobile =
+		#{mobile,jdbcType=VARCHAR},
+		email = #{email,jdbcType=VARCHAR},
+		password
+		= #{password,jdbcType=VARCHAR},
+		insert_uid =
+		#{insertUid,jdbcType=INTEGER},
+		insert_time =
+		#{insertTime,jdbcType=TIMESTAMP},
+		update_time =
+		#{updateTime,jdbcType=TIMESTAMP},
+		is_del = #{isDel,jdbcType=BIT},
+		is_job = #{isJob,jdbcType=BIT},
+		mcode = #{mcode,jdbcType=VARCHAR},
+		send_time = #{sendTime,jdbcType=TIMESTAMP},
+		version =
+		#{version,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
 
 
-  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.wyait.manage.pojo.User">
-    insert into user (id, username, mobile,
-    email, password, insert_uid,
-    insert_time, update_time, is_del,
-    is_job, mcode, send_time
-    )
-    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR},
-    #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{insertUid,jdbcType=INTEGER},
-    #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDel,jdbcType=BIT},
-    #{isJob,jdbcType=BIT}, #{mcode,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP}
-    )
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.wyait.manage.pojo.User">
-    update user
-    <set>
-      <if test="username != null">
-        username = #{username,jdbcType=VARCHAR},
-      </if>
-      <if test="mobile != null">
-        mobile = #{mobile,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null">
-        email = #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null and password !=''">
-        password = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="insertUid != null">
-        insert_uid = #{insertUid,jdbcType=INTEGER},
-      </if>
-      <if test="insertTime != null">
-        insert_time = #{insertTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="isDel != null">
-        is_del = #{isDel,jdbcType=BIT},
-      </if>
-      <if test="isJob != null">
-        is_job = #{isJob,jdbcType=BIT},
-      </if>
-      <if test="mcode != null">
-        mcode = #{mcode,jdbcType=VARCHAR},
-      </if>
-      <if test="sendTime != null">
-        send_time = #{sendTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <!--=Start getUsers 分页查询用户列表userSearch-->
-  <select id="getUsers" resultType="com.wyait.manage.entity.UserRoleDTO" >
-    select
-    id, username, mobile, email, insert_uid, insert_time, update_time, is_del,is_job
-    from user
-    <where>
-    <if test="userSearch.umobile!=null and userSearch.umobile!=''">
-      AND mobile =#{userSearch.umobile}
-    </if>
-    <if test="userSearch.uname!=null and userSearch.uname!=''">
-      AND username like CONCAT(CONCAT('%',#{userSearch.uname}), '%')
-    </if>
-    <if test="userSearch.insertTimeStart!=null and userSearch.insertTimeStart!=''">
-      AND insert_time &gt;= #{userSearch.insertTimeStart}
-    </if>
-    <if test="userSearch.insertTimeEnd!=null and userSearch.insertTimeEnd!=''">
-      AND insert_time &lt;= #{userSearch.insertTimeEnd}
-    </if>
-    </where>
-    ORDER BY insert_time DESC
-  </select>
-  <!--=End getUsers 分页查询用户列表-->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.wyait.manage.pojo.User">
+		insert into user (id, username, mobile,
+		email, password,
+		insert_uid,
+		insert_time, update_time, is_del,
+		is_job, mcode, send_time,
+		version
+		)
+		values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR},
+		#{mobile,jdbcType=VARCHAR},
+		#{email,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR}, #{insertUid,jdbcType=INTEGER},
+		#{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+		#{isDel,jdbcType=BIT},
+		#{isJob,jdbcType=BIT},
+		#{mcode,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP},
+		0
+		)
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.wyait.manage.pojo.User">
+		update user
+		<set>
+			<if test="username != null">
+				username = #{username,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				mobile = #{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				email = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null and password !=''">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="insertUid != null">
+				insert_uid = #{insertUid,jdbcType=INTEGER},
+			</if>
+			<if test="insertTime != null">
+				insert_time = #{insertTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null">
+				is_del = #{isDel,jdbcType=BIT},
+			</if>
+			<if test="isJob != null">
+				is_job = #{isJob,jdbcType=BIT},
+			</if>
+			<if test="mcode != null">
+				mcode = #{mcode,jdbcType=VARCHAR},
+			</if>
+			<if test="sendTime != null">
+				send_time = #{sendTime,jdbcType=TIMESTAMP},
+			</if>
+			version = version+1
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<!--=Start getUsers 分页查询用户列表userSearch -->
+	<select id="getUsers" resultType="com.wyait.manage.entity.UserRoleDTO">
+		select
+		id, username, mobile, email, insert_uid, insert_time,
+		update_time,
+		is_del,is_job,version
+		from user
+		<where>
+			<if test="userSearch.umobile!=null and userSearch.umobile!=''">
+				AND mobile =#{userSearch.umobile}
+			</if>
+			<if test="userSearch.uname!=null and userSearch.uname!=''">
+				AND username like CONCAT(CONCAT('%',#{userSearch.uname}),
+				'%')
+			</if>
+			<if
+				test="userSearch.insertTimeStart!=null and userSearch.insertTimeStart!=''">
+				AND insert_time &gt;= #{userSearch.insertTimeStart}
+			</if>
+			<if test="userSearch.insertTimeEnd!=null and userSearch.insertTimeEnd!=''">
+				AND insert_time &lt;= #{userSearch.insertTimeEnd}
+			</if>
+		</where>
+		ORDER BY insert_time DESC
+	</select>
+	<!--=End getUsers 分页查询用户列表 -->
 
-  <!--=Start setJobUser 设置用户是否离职-->
-  <update id="setJobUser">
-    update user
-    set
-    is_job = #{isJob,jdbcType=INTEGER},
-    insert_uid = #{insertUid,jdbcType=INTEGER},
-    update_time=NOW()
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <!--=Start setJobUser 设置用户是否离职-->
+	<!--=Start setJobUser 设置用户是否离职 -->
+	<update id="setJobUser">
+		update user
+		set
+		is_job = #{isJob,jdbcType=INTEGER},
+		insert_uid = #{insertUid,jdbcType=INTEGER},
+		update_time=NOW(),
+		version=version+1
+		where id =
+		#{id,jdbcType=INTEGER} AND is_del=0
+	</update>
+	<!--=Start setJobUser 设置用户是否离职 -->
 
-  <!--=Start setDelUser 删除用户-->
-  <update id="setDelUser">
-    update user
-    set
-    is_del = #{isDel,jdbcType=INTEGER},
-    insert_uid = #{insertUid,jdbcType=INTEGER},
-    update_time=NOW()
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <!--=Start setDelUser 删除用户-->
+	<!--=Start setDelUser 删除用户 -->
+	<update id="setDelUser">
+		update user
+		set
+		is_del = #{isDel,jdbcType=INTEGER},
+		insert_uid = #{insertUid,jdbcType=INTEGER},
+		update_time=NOW(),
+		version=version + 1
+		where id =
+		#{id,jdbcType=INTEGER}
+	</update>
+	<!--=Start setDelUser 删除用户 -->
 
-  <!--=Start getUserAndRoles 查询用户及他对应的角色ids-->
-  <resultMap id="getUserRoles" type="com.wyait.manage.entity.UserRolesVO">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
-    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="insert_uid" jdbcType="INTEGER" property="insertUid" />
-    <result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="is_del" jdbcType="BIT" property="isDel" />
-    <result column="is_job" jdbcType="BIT" property="isJob" />
+	<!--=Start getUserAndRoles 查询用户及他对应的角色ids -->
+	<resultMap id="getUserRoles" type="com.wyait.manage.entity.UserRolesVO">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="username" jdbcType="VARCHAR" property="username" />
+		<result column="mobile" jdbcType="VARCHAR" property="mobile" />
+		<result column="email" jdbcType="VARCHAR" property="email" />
+		<result column="insert_uid" jdbcType="INTEGER" property="insertUid" />
+		<result column="insert_time" jdbcType="TIMESTAMP" property="insertTime" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="is_del" jdbcType="BIT" property="isDel" />
+		<result column="is_job" jdbcType="BIT" property="isJob" />
+		<result column="version" jdbcType="INTEGER" property="version" />
 
-    <collection property="userRoles" ofType="com.wyait.manage.pojo.UserRoleKey">
-      <result column="user_id" property="userId" />
-      <result column="role_id" property="roleId" />
-    </collection>
+		<collection property="userRoles" ofType="com.wyait.manage.pojo.UserRoleKey">
+			<result column="user_id" property="userId" />
+			<result column="role_id" property="roleId" />
+		</collection>
 
-  </resultMap>
-  <select id="getUserAndRoles" resultMap="getUserRoles" >
-    select
-    u.id, u.username, u.mobile, u.email, u.insert_uid insertUid,u.insert_time insertTime, u.update_time updateTime, u.is_del isDel,u.is_job isJob,
-    ur.user_id,ur.role_id
-    from user u
-    LEFT JOIN user_role ur ON u.id=ur.user_id
-    WHERE  u.id=#{id} AND u.is_del=0 and u.is_job=0
-  </select>
-  <!--=End getUserAndRoles 查询用户及他对应的角色ids-->
+	</resultMap>
+	<select id="getUserAndRoles" resultMap="getUserRoles">
+		select
+		u.id, u.username,
+		u.mobile, u.email, u.insert_uid insertUid,u.insert_time
+		insertTime,
+		u.update_time updateTime, u.is_del isDel,u.is_job isJob,u.version,
+		ur.user_id,ur.role_id
+		from user u
+		LEFT JOIN user_role ur ON
+		u.id=ur.user_id
+		WHERE u.id=#{id} AND u.is_del=0 and u.is_job=0
+	</select>
+	<!--=End getUserAndRoles 查询用户及他对应的角色ids -->
 
-  <!--=Start findUser 根据用户名和密码查找用户-->
-  <select id="findUser" resultType="com.wyait.manage.pojo.User" >
-    select
-    id, username, mobile, email, insert_uid insertUid, insert_time insertTime, update_time updateTime, is_del isDel,is_job isJob,mcode,send_time sendTime
-    from user
-    WHERE username=#{username} AND password =#{password} and is_del=0 and is_job=0
-  </select>
-  <!--=End findUser 根据用户名和密码查找用户-->
-  <!--=Start findUserByMobile 根据手机号获取用户数据-->
-  <select id="findUserByMobile" resultType="com.wyait.manage.pojo.User" >
-    select
-    id, username, mobile,password, email, insert_uid insertUid, insert_time insertTime, update_time, is_del,is_job,mcode,send_time sendTime
-    from user
-    WHERE mobile=#{mobile}
-  </select>
-  <!--=End findUserByMobile 根据手机号查找用户-->
-  <!--=Start findUserByName 根据用户名获取用户数据-->
-  <select id="findUserByName" resultType="com.wyait.manage.pojo.User" >
-    select
-    id, username, mobile, email, insert_uid insertUid, insert_time insertTime, update_time updateTime, is_del isDel,is_job isJob,mcode,send_time sendTime
-    from user
-    WHERE username=#{username}
-  </select>
-  <!--=End findUserByName 根据用户名查找用户-->
-  <!--=Start updatePwd 修改用户密码-->
-  <update id="updatePwd">
-    update user
-    set
-    password = #{password},
-    update_time=NOW()
-    where id = #{id,jdbcType=INTEGER} and is_del=0 AND is_job=0
-  </update>
-  <!--=Start updatePwd 修改用户密码-->
-  <!--=Start setUserLockNum 锁定用户-->
-<!--  <update id="setUserLockNum">
-    update user
-    set
-    is_lock = #{isLock},
-    lock_time=NOW()
-    where id = #{id,jdbcType=INTEGER} and is_del=0 AND is_job=0
-  </update>-->
-  <!--=Start setUserLockNum 锁定用户-->
+	<!--=Start findUser 根据用户名和密码查找用户 -->
+	<select id="findUser" resultType="com.wyait.manage.pojo.User">
+		select
+		id, username, mobile,
+		email, insert_uid insertUid, insert_time
+		insertTime, update_time
+		updateTime, is_del isDel,is_job
+		isJob,mcode,send_time sendTime,version
+		from user
+		WHERE username=#{username} AND password =#{password} and
+		is_del=0 and
+		is_job=0
+	</select>
+	<!--=End findUser 根据用户名和密码查找用户 -->
+	<!--=Start findUserByMobile 根据手机号获取用户数据 -->
+	<select id="findUserByMobile" resultType="com.wyait.manage.pojo.User">
+		select
+		id, username,
+		mobile,password, email, insert_uid insertUid, insert_time
+		insertTime,
+		update_time, is_del,is_job,mcode,send_time sendTime,version
+		from user
+		WHERE
+		mobile=#{mobile} and is_del=0
+	</select>
+	<!--=End findUserByMobile 根据手机号查找用户 -->
+	<!--=Start findUserByName 根据用户名获取用户数据 -->
+	<select id="findUserByName" resultType="com.wyait.manage.pojo.User">
+		select
+		id, username,
+		mobile, email, insert_uid insertUid, insert_time
+		insertTime,
+		update_time updateTime, is_del isDel,is_job
+		isJob,mcode,send_time
+		sendTime,version
+		from user
+		WHERE username=#{username} and is_del=0
+	</select>
+	<!--=End findUserByName 根据用户名查找用户 -->
+	<!--=Start updatePwd 修改用户密码 -->
+	<update id="updatePwd">
+		update user
+		set
+		password = #{password},
+		update_time=NOW()
+		where id = #{id,jdbcType=INTEGER} and is_del=0 AND
+		is_job=0
+	</update>
+	<!--=Start updatePwd 修改用户密码 -->
+	<!--=Start setUserLockNum 锁定用户 -->
+	<!-- <update id="setUserLockNum"> update user set is_lock = #{isLock}, lock_time=NOW() 
+		where id = #{id,jdbcType=INTEGER} and is_del=0 AND is_job=0 </update> -->
+	<!--=Start setUserLockNum 锁定用户 -->
 </mapper>

@@ -35,9 +35,11 @@ public interface UserService {
 	 * 设置用户是否离职
 	 * @param id
 	 * @param isJob
+	 * @param insertUid
 	 * @return
 	 */
-	int setJobUser(Integer id, Integer isJob,Integer insertUid);
+	String setJobUser(Integer id, Integer isJob, Integer insertUid,
+			Integer version);
 
 	/**
 	 * 删除用户
@@ -45,7 +47,8 @@ public interface UserService {
 	 * @param isDel
 	 * @return
 	 */
-	int setDelUser(Integer id, Integer isDel,Integer insertUid);
+	String setDelUser(Integer id, Integer isDel, Integer insertUid,
+			Integer version);
 
 	/**
 	 * 查询用户数据
@@ -89,5 +92,5 @@ public interface UserService {
 	 * @param isLock  0:解锁；1：锁定
 	 * @return
 	 */
-	int setUserLockNum(Integer id,int isLock);
+	int setUserLockNum(Integer id, int isLock);
 }

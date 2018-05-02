@@ -91,30 +91,36 @@ $(function() {
     });
 });
 //设置用户是否离职
-function setJobUser(obj,id,name,checked){
+function setJobUser(obj,id,nameVersion,checked){
+    var name=nameVersion.substring(0,nameVersion.indexOf("_"));
+    var version=nameVersion.substring(nameVersion.indexOf("_")+1);
     var isJob=checked ? 0 : 1;
     var userIsJob=checked ? "在职":"离职";
     //是否离职
     layer.confirm('您确定要把用户：'+name+'设置为'+userIsJob+'状态吗？', {
         btn: ['确认','返回'] //按钮
     }, function(){
-        $.post("/user/setJobUser",{"id":id,"job":isJob},function(data){
+        $.post("/user/setJobUser",{"id":id,"job":isJob,"version":version},function(data){
             if(isLogin(data)){
                 if(data=="ok"){
                     //回调弹框
                     layer.alert("操作成功！",function(){
                         layer.closeAll();
+                        //加载load方法
+                        load(obj);
                     });
                 }else{
                     layer.alert(data);//弹出错误提示
+                    //加载load方法
+                    load(obj);
                 }
             }
         });
     }, function(){
         layer.closeAll();
+        //加载load方法
+        load(obj);
     });
-    //加载load方法
-    load(obj);
 }
 //提交表单
 function formSubmit(obj){
@@ -254,6 +260,7 @@ function getUserAndRoles(obj,id) {
                         });
                     }
                     $("#id").val(data.user.id==null?'':data.user.id);
+                    $("#version").val(data.user.version==null?'':data.user.version);
                     $("#username").val(data.user.username==null?'':data.user.username);
                     $("#mobile").val(data.user.mobile==null?'':data.user.mobile);
                     $("#email").val(data.user.email==null?'':data.user.email);
@@ -288,6 +295,7 @@ function getUserAndRoles(obj,id) {
 }
 function delUser(obj,id,name) {
     var currentUser=$("#currentUser").html();
+    var version=obj.version;
     if(null!=id){
         if(currentUser==id){
             layer.alert("对不起，您不能执行删除自己的操作！");
@@ -295,7 +303,7 @@ function delUser(obj,id,name) {
             layer.confirm('您确定要删除'+name+'用户吗？', {
                 btn: ['确认','返回'] //按钮
             }, function(){
-                $.post("/user/delUser",{"id":id},function(data){
+                $.post("/user/delUser",{"id":id,"version":version},function(data){
                     if(isLogin(data)){
                         if(data=="ok"){
                             //回调弹框
@@ -317,11 +325,13 @@ function delUser(obj,id,name) {
 }
 function recoverUser(obj,id) {
     //console.log("需要恢复的用户id="+id);
+    var version=obj.version;
+    //console.log("delUser版本:"+version);
     if(null!=id){
         layer.confirm('您确定要恢复'+name+'用户吗？', {
             btn: ['确认','返回'] //按钮
         }, function(){
-            $.post("/user/recoverUser",{"id":id},function(data){
+            $.post("/user/recoverUser",{"id":id,"version":version},function(data){
                 if(isLogin(data)){
                     if(data=="ok"){
                         //回调弹框
