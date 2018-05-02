@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50536
 File Encoding         : 65001
 
-Date: 2018-04-22 21:19:39
+Date: 2018-05-02 19:51:19
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -134,7 +134,7 @@ INSERT INTO `role_permission` VALUES ('14', '5');
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) DEFAULT '' COMMENT '用户名',
   `mobile` varchar(15) DEFAULT '' COMMENT '手机号',
   `email` varchar(50) DEFAULT '' COMMENT '邮箱',
@@ -146,33 +146,40 @@ CREATE TABLE `user` (
   `is_job` tinyint(1) DEFAULT '0' COMMENT '是否在职（0：正常；1，离职）',
   `mcode` varchar(10) DEFAULT '' COMMENT '短信验证码',
   `send_time` datetime DEFAULT NULL COMMENT '短信发送时间',
+  `version` int(10) DEFAULT '0' COMMENT '更新版本',
   PRIMARY KEY (`id`),
   KEY `name` (`username`) USING BTREE,
   KEY `id` (`id`) USING BTREE,
   KEY `mobile` (`mobile`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='用户表';
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'wyait', '12316596566', 'aaa', 'c33367701511b4f6020ec61ded352059', null, '2017-12-29 17:27:23', '2018-01-09 13:34:33', '0', '0', '181907', '2018-01-17 13:42:45');
-INSERT INTO `user` VALUES ('3', 'wy1', '11155556667', 'a11', 'c33367701511b4f6020ec61ded352059', '1', '2018-01-01 15:17:19', '2018-04-22 21:14:58', '0', '0', null, null);
-INSERT INTO `user` VALUES ('5', 'wy23', '11155552233', 'a', 'c33367701511b4f6020ec61ded352059', null, '2018-01-02 13:41:29', '2018-01-10 15:55:37', '0', '1', null, null);
-INSERT INTO `user` VALUES ('6', 'wyyyy', '12356456542', 'afdfd123', 'c33367701511b4f6020ec61ded352059', null, '2018-01-02 13:44:04', '2018-01-02 16:56:05', '0', '1', null, null);
-INSERT INTO `user` VALUES ('7', 'wwwww', '11155623232', '123456', 'c33367701511b4f6020ec61ded352059', null, '2018-01-02 13:44:23', null, '1', '0', null, null);
-INSERT INTO `user` VALUES ('8', 'manage', '12345678911', '359818226@.com', 'e10adc3949ba59abbe56e057f20f883e', null, '2018-01-04 16:51:21', '2018-01-08 21:02:38', '0', '0', null, null);
-INSERT INTO `user` VALUES ('10', 'b', '12345678977', 'a', 'c33367701511b4f6020ec61ded352059', null, '2018-01-09 10:30:56', null, '0', '0', null, null);
-INSERT INTO `user` VALUES ('11', 'e', '12345678911', 'e', 'c33367701511b4f6020ec61ded352059', null, '2018-01-09 10:31:08', null, '0', '0', null, null);
-INSERT INTO `user` VALUES ('12', 'ee', '12345678919', 'a', 'c33367701511b4f6020ec61ded352059', null, '2018-01-09 10:31:33', null, '0', '0', null, null);
-INSERT INTO `user` VALUES ('13', '456', '12345678888', 'e', 'c33367701511b4f6020ec61ded352059', null, '2018-01-09 10:31:46', null, '0', '0', null, null);
-INSERT INTO `user` VALUES ('14', '89', '12345612222', 'a', 'c33367701511b4f6020ec61ded352059', null, '2018-01-09 10:31:58', null, '0', '0', null, null);
-INSERT INTO `user` VALUES ('15', 'aa', '12345678915', 'ee1', 'c33367701511b4f6020ec61ded352059', null, '2018-01-09 10:32:12', '2018-01-09 13:29:12', '0', '0', null, null);
-INSERT INTO `user` VALUES ('16', 'tty', '12345678521', 'aa', 'c33367701511b4f6020ec61ded352059', null, '2018-01-09 13:32:17', '2018-01-09 13:45:58', '0', '0', null, null);
-INSERT INTO `user` VALUES ('17', 'oo', '12345666666', 'qq', 'c33367701511b4f6020ec61ded352059', null, '2018-01-09 13:51:01', '2018-01-09 13:51:11', '0', '1', null, null);
-INSERT INTO `user` VALUES ('18', 'iik', '12345678920', 'aaaa120', 'c33367701511b4f6020ec61ded352059', null, '2018-01-09 16:31:03', '2018-01-09 16:41:28', '0', '0', null, null);
-INSERT INTO `user` VALUES ('19', 'kitxiao', '12321727725', '24319@qq.com', 'c33367701511b4f6020ec61ded352059', null, '2018-01-17 09:24:27', null, '0', '0', '386614', '2018-01-18 09:45:41');
-INSERT INTO `user` VALUES ('20', 'xiaoqiabng1', '11111111111', '123@qq.com', 'c33367701511b4f6020ec61ded352059', null, '2018-01-17 13:54:08', null, '0', '0', '353427', '2018-01-17 13:56:59');
-INSERT INTO `user` VALUES ('21', '11123232323', '11123232323', '', 'c33367701511b4f6020ec61ded352059', '1', '2018-04-22 21:14:48', null, '0', '0', null, null);
+INSERT INTO `user` VALUES ('1', 'wyait', '12316596566', 'aaa', 'c33367701511b4f6020ec61ded352059', null, '2017-12-29 17:27:23', '2018-01-09 13:34:33', '0', '0', '181907', '2018-01-17 13:42:45', '0');
+INSERT INTO `user` VALUES ('3', 'wy1', '11155556667', 'a11', 'c33367701511b4f6020ec61ded352059', '1', '2018-01-01 15:17:19', '2018-04-22 21:14:58', '0', '0', null, null, '0');
+INSERT INTO `user` VALUES ('5', 'wy23', '11155552233', 'a', 'c33367701511b4f6020ec61ded352059', null, '2018-01-02 13:41:29', '2018-01-10 15:55:37', '0', '1', null, null, '0');
+INSERT INTO `user` VALUES ('6', 'wyyyy', '12356456542', 'afdfd123', 'c33367701511b4f6020ec61ded352059', null, '2018-01-02 13:44:04', '2018-01-02 16:56:05', '0', '1', null, null, '0');
+INSERT INTO `user` VALUES ('7', 'wwwww', '11155623232', '123456', 'c33367701511b4f6020ec61ded352059', null, '2018-01-02 13:44:23', null, '1', '0', null, null, '0');
+INSERT INTO `user` VALUES ('8', 'manage', '12345678911', '359818226@.com', 'e10adc3949ba59abbe56e057f20f883e', null, '2018-01-04 16:51:21', '2018-01-08 21:02:38', '0', '0', null, null, '0');
+INSERT INTO `user` VALUES ('10', 'b', '12345678977', 'a', 'c33367701511b4f6020ec61ded352059', '1', '2018-01-09 10:30:56', '2018-04-22 21:27:53', '0', '0', null, null, '0');
+INSERT INTO `user` VALUES ('11', 'e', '12345678911', 'e', 'c33367701511b4f6020ec61ded352059', null, '2018-01-09 10:31:08', null, '0', '0', null, null, '0');
+INSERT INTO `user` VALUES ('12', 'ee', '12345678919', 'a', 'c33367701511b4f6020ec61ded352059', '1', '2018-01-09 10:31:33', '2018-04-22 21:28:01', '0', '0', null, null, '0');
+INSERT INTO `user` VALUES ('13', '456', '12345678888', 'e', 'c33367701511b4f6020ec61ded352059', null, '2018-01-09 10:31:46', null, '0', '0', null, null, '0');
+INSERT INTO `user` VALUES ('14', '89', '12345612222', 'a', 'c33367701511b4f6020ec61ded352059', null, '2018-01-09 10:31:58', null, '0', '0', null, null, '0');
+INSERT INTO `user` VALUES ('15', 'aa', '12345678915', 'ee1', 'c33367701511b4f6020ec61ded352059', null, '2018-01-09 10:32:12', '2018-01-09 13:29:12', '0', '0', null, null, '0');
+INSERT INTO `user` VALUES ('16', 'tty', '12345678521', 'aa', 'c33367701511b4f6020ec61ded352059', null, '2018-01-09 13:32:17', '2018-01-09 13:45:58', '0', '0', null, null, '0');
+INSERT INTO `user` VALUES ('17', 'oo', '12345666666', 'qq', 'c33367701511b4f6020ec61ded352059', '1', '2018-01-09 13:51:01', '2018-04-24 19:30:01', '0', '0', null, null, '0');
+INSERT INTO `user` VALUES ('18', 'iik', '12345678920', 'aaaa120', 'c33367701511b4f6020ec61ded352059', null, '2018-01-09 16:31:03', '2018-01-09 16:41:28', '0', '0', null, null, '0');
+INSERT INTO `user` VALUES ('19', '123456', '12321727724', '24319@qq.com', 'c33367701511b4f6020ec61ded352059', '1', '2018-01-17 09:24:27', '2018-04-28 19:21:59', '0', '0', '386614', '2018-01-18 09:45:41', '0');
+INSERT INTO `user` VALUES ('20', 'xiaoqiabng1', '11111111212', '1213@qq.com', 'c33367701511b4f6020ec61ded352059', '19', '2018-01-17 13:54:08', '2018-04-26 14:09:23', '0', '0', '353427', '2018-01-17 13:56:59', '0');
+INSERT INTO `user` VALUES ('21', 'aaaacc2', '10123235656', '', 'c33367701511b4f6020ec61ded352059', '1', '2018-04-22 21:14:48', '2018-05-02 16:55:12', '0', '0', null, null, '8');
+INSERT INTO `user` VALUES ('22', '11232323232', '23233223322', '', 'c33367701511b4f6020ec61ded352059', '19', '2018-04-26 13:30:44', '2018-04-28 19:22:11', '1', '0', null, null, '0');
+INSERT INTO `user` VALUES ('23', 'bbb1', '10222224564', '', 'c33367701511b4f6020ec61ded352059', '19', '2018-04-26 14:36:30', '2018-04-28 15:43:21', '1', '0', null, null, '0');
+INSERT INTO `user` VALUES ('24', 'eee', '12536369898', '', 'c33367701511b4f6020ec61ded352059', '19', '2018-04-26 18:37:34', '2018-04-28 15:36:12', '1', '0', null, null, '0');
+INSERT INTO `user` VALUES ('25', 'fast', '12312312312', '', 'c33367701511b4f6020ec61ded352059', '1', '2018-04-28 09:37:32', '2018-04-28 09:37:48', '1', '0', null, null, '0');
+INSERT INTO `user` VALUES ('26', 'xxx', '12923235959', '', 'c33367701511b4f6020ec61ded352059', '1', '2018-05-02 16:55:35', '2018-05-02 19:35:51', '1', '0', null, null, '5');
+INSERT INTO `user` VALUES ('27', 'ppp12', '12826265353', '', 'c33367701511b4f6020ec61ded352059', '1', '2018-05-02 16:56:41', '2018-05-02 19:30:05', '1', '0', null, null, '19');
 
 -- ----------------------------
 -- Table structure for user_role
@@ -191,6 +198,13 @@ CREATE TABLE `user_role` (
 -- ----------------------------
 INSERT INTO `user_role` VALUES ('1', '1');
 INSERT INTO `user_role` VALUES ('3', '5');
-INSERT INTO `user_role` VALUES ('19', '1');
+INSERT INTO `user_role` VALUES ('12', '5');
+INSERT INTO `user_role` VALUES ('19', '3');
 INSERT INTO `user_role` VALUES ('20', '2');
-INSERT INTO `user_role` VALUES ('21', '5');
+INSERT INTO `user_role` VALUES ('21', '4');
+INSERT INTO `user_role` VALUES ('22', '5');
+INSERT INTO `user_role` VALUES ('23', '3');
+INSERT INTO `user_role` VALUES ('24', '5');
+INSERT INTO `user_role` VALUES ('25', '2');
+INSERT INTO `user_role` VALUES ('26', '5');
+INSERT INTO `user_role` VALUES ('27', '5');
