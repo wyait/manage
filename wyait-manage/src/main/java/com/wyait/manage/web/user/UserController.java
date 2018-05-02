@@ -102,10 +102,13 @@ public class UserController {
 	@RequestMapping(value = "/setJobUser", method = RequestMethod.POST)
 	@ResponseBody
 	public String setJobUser(@RequestParam("id") Integer id,
-			@RequestParam("job") Integer isJob) {
-		logger.debug("设置用户是否离职！id:" + id + ",isJob:" + isJob);
+			@RequestParam("job") Integer isJob,
+			@RequestParam("version") Integer version) {
+		logger.debug("设置用户是否离职！id:" + id + ",isJob:" + isJob + ",version:"
+				+ version);
+		String msg = "";
 		try {
-			if (null == id || null == isJob) {
+			if (null == id || null == isJob || null == version) {
 				logger.debug("设置用户是否离职，结果=请求参数有误，请您稍后再试");
 				return "请求参数有误，请您稍后再试";
 			}
@@ -115,15 +118,15 @@ public class UserController {
 				return "您未登录或登录超时，请您登录后再试";
 			}
 			// 设置用户是否离职
-			userService.setJobUser(id, isJob, existUser.getId());
+			msg = userService.setJobUser(id, isJob, existUser.getId(),version);
 			logger.info("设置用户是否离职成功！userID=" + id + ",isJob:" + isJob
 					+ "，操作的用户ID=" + existUser.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("设置用户是否离职异常！", e);
-			return "操作异常，请您稍后再试！";
+			msg = "操作异常，请您稍后再试！";
 		}
-		return "ok";
+		return msg;
 	}
 
 	/**
@@ -166,10 +169,12 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/delUser", method = RequestMethod.POST)
 	@ResponseBody
-	public String delUser(@RequestParam("id") Integer id) {
+	public String delUser(@RequestParam("id") Integer id,
+			@RequestParam("version") Integer version) {
 		logger.debug("删除用户！id:" + id);
+		String msg = "";
 		try {
-			if (null == id) {
+			if (null == id || null == version) {
 				logger.debug("删除用户，结果=请求参数有误，请您稍后再试");
 				return "请求参数有误，请您稍后再试";
 			}
@@ -179,14 +184,15 @@ public class UserController {
 				return "您未登录或登录超时，请您登录后再试";
 			}
 			// 删除用户
-			userService.setDelUser(id, 1, existUser.getId());
-			logger.info("删除用户成功！userId=" + id + "，操作用户id:" + existUser.getId());
+			msg = userService.setDelUser(id, 1, existUser.getId(), version);
+			logger.info("删除用户:" + msg + "。userId=" + id + "，操作用户id:"
+					+ existUser.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("删除用户异常！", e);
-			return "操作异常，请您稍后再试";
+			msg = "操作异常，请您稍后再试";
 		}
-		return "ok";
+		return msg;
 	}
 
 	/**
@@ -199,28 +205,29 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/recoverUser", method = RequestMethod.POST)
 	@ResponseBody
-	public String recoverUser(@RequestParam("id") Integer id) {
+	public String recoverUser(@RequestParam("id") Integer id,
+			@RequestParam("version") Integer version) {
 		logger.debug("恢复用户！id:" + id);
+		String msg = "";
 		try {
 			User existUser = (User) SecurityUtils.getSubject().getPrincipal();
 			if (null == existUser) {
 				return "您未登录或登录超时，请您登录后再试";
 			}
-			if (null == id) {
+			if (null == id || null == version) {
 				return "请求参数有误，请您稍后再试";
 			}
 			// 删除用户
-			userService.setDelUser(id, 0, existUser.getId());
-			logger.info("恢复用户【" + this.getClass().getName()
-					+ ".recoverUser】成功！用户userId=" + id + "，操作的用户ID="
-					+ existUser.getId());
+			msg = userService.setDelUser(id, 0, existUser.getId(), version);
+			logger.info("恢复用户【" + this.getClass().getName() + ".recoverUser】"
+					+ msg + "。用户userId=" + id + "，操作的用户ID=" + existUser.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("恢复用户【" + this.getClass().getName()
 					+ ".recoverUser】用户异常！", e);
-			return "操作异常，请您稍后再试";
+			msg = "操作异常，请您稍后再试";
 		}
-		return "ok";
+		return msg;
 	}
 
 	/**
@@ -345,10 +352,10 @@ public class UserController {
 			}
 			// 校验验证码
 			/*if(!existUser.getMcode().equals(user.getSmsCode())){ //不等
-				 responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR.getCode());
-				 responseResult.setMessage("短信验证码输入有误");
-				 logger.debug("用户登录，结果=responseResult:"+responseResult);
-				 return responseResult;
+			 responseResult.setCode(IStatusMessage.SystemStatus.PARAM_ERROR.getCode());
+			 responseResult.setMessage("短信验证码输入有误");
+			 logger.debug("用户登录，结果=responseResult:"+responseResult);
+			 return responseResult;
 			} //1分钟
 			long beginTime =existUser.getSendTime().getTime();
 			long endTime = new Date().getTime();

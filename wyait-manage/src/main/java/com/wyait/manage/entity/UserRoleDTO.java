@@ -23,6 +23,8 @@ public class UserRoleDTO {
 
 	private String roleNames;
 
+	private Integer version;
+
 	public Integer getId() {
 		return id;
 	}
@@ -113,13 +115,22 @@ public class UserRoleDTO {
 		this.roleNames = roleNames;
 	}
 
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
+
 	@Override
 	public String toString() {
-		return "UserRoleDTO{" + "id=" + id + ", username='" + username + '\''
-				+ ", mobile='" + mobile + '\'' + ", email='" + email + '\''
-				+ ", password='" + password + '\'' + ", insertUid=" + insertUid
-				+ ", insertTime=" + insertTime + ", updateTime=" + updateTime
-				+ ", isDel=" + isDel + ", isJob=" + isJob + ", roleNames='"
-				+ roleNames + '\'' + '}';
+		return "UserRoleDTO [id=" + id + ", username=" + username + ", mobile="
+				+ mobile + ", email=" + email + ", password=" + password
+				+ ", insertUid=" + insertUid + ", insertTime=" + insertTime
+				+ ", updateTime=" + updateTime + ", isDel=" + isDel
+				+ ", isJob=" + isJob + ", roleNames=" + roleNames
+				+ ", version=" + version + "]";
 	}
+
 }

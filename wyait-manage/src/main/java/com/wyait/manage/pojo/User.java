@@ -3,7 +3,7 @@ package com.wyait.manage.pojo;
 import java.io.Serializable;
 import java.util.Date;
 
-public class User implements Serializable{
+public class User implements Serializable {
 	private static final long serialVersionUID = -3096736268081409238L;
 	private Integer id;
 
@@ -28,6 +28,8 @@ public class User implements Serializable{
 	private String mcode;
 
 	private Date sendTime;
+
+	private Integer version;
 
 	public Integer getId() {
 		return id;
@@ -125,12 +127,22 @@ public class User implements Serializable{
 		this.sendTime = sendTime;
 	}
 
-	@Override public String toString() {
-		return "User{" + "id=" + id + ", username='" + username + '\''
-				+ ", mobile='" + mobile + '\'' + ", email='" + email + '\''
-				+ ", password='" + password + '\'' + ", insertUid=" + insertUid
-				+ ", insertTime=" + insertTime + ", updateTime=" + updateTime
-				+ ", isDel=" + isDel + ", isJob=" + isJob + ", mcode='" + mcode
-				+ '\'' + ", sendTime=" + sendTime + '}';
+	public Integer getVersion() {
+		return version;
 	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", mobile="
+				+ mobile + ", email=" + email + ", password=" + password
+				+ ", insertUid=" + insertUid + ", insertTime=" + insertTime
+				+ ", updateTime=" + updateTime + ", isDel=" + isDel
+				+ ", isJob=" + isJob + ", mcode=" + mcode + ", sendTime="
+				+ sendTime + ", version=" + version + "]";
+	}
+
 }
