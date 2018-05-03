@@ -119,7 +119,7 @@ function login(){
             console.log("data:"+data)
             if(data.code=="1000"){
                 layer.alert("登录成功",function () {
-                    window.location.href="/user/userList";
+                    window.location.href="/home";
                 });
             }else{
                 //$("#password").val("");

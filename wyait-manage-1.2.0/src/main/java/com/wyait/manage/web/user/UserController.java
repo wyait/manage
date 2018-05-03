@@ -36,7 +36,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.regex.Pattern;
 
 /**
  * @项目名称：wyait-manage
@@ -59,7 +58,7 @@ public class UserController {
 	@Autowired
 	private EhCacheManager ecm;
 
-	private static final Pattern MOBILE_PATTERN = Pattern.compile("^1\\d{10}$");
+	//private static final Pattern MOBILE_PATTERN = Pattern.compile("^1\\d{10}$");
 
 	@RequestMapping("/userList")
 	public String toUserList() {

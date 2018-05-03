@@ -44,8 +44,9 @@
         <button class="layui-btn layui-btn-normal" onclick="addUser()">开通用户</button>
         <button class="layui-btn layui-btn-normal" onclick="nolockUser()">解锁</button>
 
-        <table id="uesrList" lay-filter="userTable"></table>
         <div style="display:none;" id="currentUser"><shiro:principal property="id"></shiro:principal></div>
+
+        <table id="uesrList" lay-filter="userTable"></table>
 
         <script type="text/html" id="jobTpl">
             {{#  if(!d.job){ }}

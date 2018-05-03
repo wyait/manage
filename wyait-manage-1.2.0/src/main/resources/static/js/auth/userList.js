@@ -23,14 +23,14 @@ $(function() {
             }
             ,cols: [[
                 {type:'numbers'}
-                ,{field:'id', title:'ID', width:90, unresize: true, sort: true}
+                ,{field:'id', title:'ID',width:80, unresize: true, sort: true}
                 ,{field:'username', title:'用户名'}
                 ,{field:'mobile', title:'手机号'}
                 ,{field:'email', title: '邮箱'}
-                ,{field:'roleNames', title: '角色名称', minWidth:50}
+                ,{field:'roleNames', title: '角色名称', minWidth:80}
                 ,{field:'insertTime', title: '添加时间'}
-                ,{field:'isJob', title:'是否在职',width:90,templet:'#jobTpl'}
-                ,{fixed:'right', title:'操作', width:120,align:'center', toolbar:'#optBar'}
+                ,{field:'isJob', title:'是否在职',width:95,align:'center',templet:'#jobTpl'}
+                ,{fixed:'right', title:'操作',width:140,align:'center', toolbar:'#optBar'}
             ]]
             ,  done: function(res, curr, count){
                 //如果是异步请求数据方式，res即为你接口返回的信息。

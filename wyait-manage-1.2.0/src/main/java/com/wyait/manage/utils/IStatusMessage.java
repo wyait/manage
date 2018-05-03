@@ -21,6 +21,7 @@ public interface IStatusMessage {
 		SUCCESS_MATCH("1003","SUCCESS_MATCH"), //表示成功匹配
 		NO_LOGIN("1100","NO_LOGIN"), //未登录
 		MANY_LOGINS("1101","MANY_LOGINS"), //多用户在线（踢出用户）
+		UPDATE("1102","UPDATE"), //用户信息或权限已更新（退出重新登录）
 		LOCK("1111","LOCK"); //用户已锁定
 		private String code;
 		private String message;
