@@ -10,4 +10,10 @@ spring boot + mybatis + shiro + layui 搭建的后台权限管理系统
 3. 解决ajax请求，判断用户未登录之后，如何重定向到登录页面问题；
 4. 解决使用并完成了功能1，导致的session有效时间冲突问题。   
 
+【博客】[spring boot + shiro 动态更新用户信息：http://blog.51cto.com/wyait/2112200](http://blog.51cto.com/wyait/2112200)；  
+
+5. 更新用户操作，通过version字段来保证数据一致；
+6. 新增通过拦截器实现动态更新用户信息（同步更新在线用户信息）；
+7. 新增登录成功后默认页面home.html；
+
 **wyait.sql**: sql数据库语句源码
