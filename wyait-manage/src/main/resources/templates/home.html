@@ -10,6 +10,20 @@
         <!--主体区域-->
         <!-- <div class="layui-body" th:include="channel/channelImport :: authorize"></div> -->
         <!--<div th:include="channel/body :: body"></div>-->
+        
+        <div class="layui-body">
+            <div class="layui-container">
+                <div class="layui-row">
+                    <div class="layui-col-xs9">
+                        &nbsp;
+                        <h1 style="padding-top:50px;line-height:2.0;"><shiro:principal property="username"></shiro:principal>，欢迎您登录
+                        <a href="http://blog.51cto.com/wyait"><span style="font-weight: bold;font-size:28px;">后台管理系统</span></a></h1>
+                        <p><font style="font-size: 18px;">博客链接：</font><a href="http://blog.51cto.com/wyait"><span style="font-weight: bold;font-size:20px;color:blue">http://blog.51cto.com/wyait</span></a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!--底部-->
         <div th:replace="fragments/footer :: footer"></div>
     </div>

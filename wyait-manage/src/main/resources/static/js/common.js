@@ -85,10 +85,10 @@ Number.prototype.formatMoney = function (places, symbol, thousand, decimal) {
 /**
  * 判断是否登录，没登录刷新当前页，促使Shiro拦截后跳转登录页
  * @param result	ajax请求返回的值
- * @returns {如果没登录，刷新当前页}
+ * @returns {如果没登录、登录失效，刷新当前页}
  */
 function isLogin(result){
-    if(result && result.code && result.code == '1101'){
+    if(result && result.code && (result.code == '1101' || result.code=='1102')){
         window.location.reload(true);//刷新当前页
     }
     return true;//返回true

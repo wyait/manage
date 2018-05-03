@@ -52,7 +52,7 @@ public class ShiroConfig {
 		// 指定要求登录时的链接
 		shiroFilterFactoryBean.setLoginUrl("/toLogin");
 		// 登录成功后要跳转的链接
-		shiroFilterFactoryBean.setSuccessUrl("/index");
+		shiroFilterFactoryBean.setSuccessUrl("/home");
 		// 未授权时跳转的界面;
 		shiroFilterFactoryBean.setUnauthorizedUrl("/error");
 

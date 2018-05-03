@@ -145,7 +145,7 @@ public class HttpClientConfig  {
 	 */
 	@Bean(name = "httpClientBuilder")
 	public HttpClientBuilder getHttpClientBuilder(@Qualifier("poolingClientConnectionManager")PoolingHttpClientConnectionManager httpClientConnectionManager){
-
+		logger.debug("创建httpClientBuilder对象");
 		return HttpClients.custom().setConnectionManager(httpClientConnectionManager)
 				.setRetryHandler(this.httpRequestRetryHandler())
 				//.setKeepAliveStrategy(connectionKeepAliveStrategy())

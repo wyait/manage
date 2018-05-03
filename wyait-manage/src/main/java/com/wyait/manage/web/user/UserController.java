@@ -1,23 +1,25 @@
 package com.wyait.manage.web.user;
 
-import com.wyait.common.utils.DateUtil;
-import com.wyait.common.utils.ValidateUtil;
-import com.wyait.manage.entity.ResponseResult;
-import com.wyait.manage.entity.UserDTO;
-import com.wyait.manage.entity.UserRolesVO;
-import com.wyait.manage.entity.UserSearchDTO;
-import com.wyait.manage.pojo.Role;
-import com.wyait.manage.pojo.User;
-import com.wyait.manage.service.AuthService;
-import com.wyait.manage.service.UserService;
-import com.wyait.manage.utils.IStatusMessage;
-import com.wyait.manage.utils.PageDataResult;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import net.sf.oval.ConstraintViolation;
 import net.sf.oval.Validator;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.ExcessiveAttemptsException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.subject.Subject;
@@ -30,13 +32,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.text.ParseException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.regex.Pattern;
+import com.wyait.common.utils.DateUtil;
+import com.wyait.common.utils.ValidateUtil;
+import com.wyait.manage.entity.ResponseResult;
+import com.wyait.manage.entity.UserDTO;
+import com.wyait.manage.entity.UserRolesVO;
+import com.wyait.manage.entity.UserSearchDTO;
+import com.wyait.manage.pojo.Role;
+import com.wyait.manage.pojo.User;
+import com.wyait.manage.service.AuthService;
+import com.wyait.manage.service.UserService;
+import com.wyait.manage.utils.IStatusMessage;
+import com.wyait.manage.utils.PageDataResult;
 
 /**
  * @项目名称：wyait-manage
@@ -59,7 +66,7 @@ public class UserController {
 	@Autowired
 	private EhCacheManager ecm;
 
-	private static final Pattern MOBILE_PATTERN = Pattern.compile("^1\\d{10}$");
+	//private static final Pattern MOBILE_PATTERN = Pattern.compile("^1\\d{10}$");
 
 	@RequestMapping("/userList")
 	public String toUserList() {

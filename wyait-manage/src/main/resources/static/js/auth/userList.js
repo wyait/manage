@@ -23,14 +23,14 @@ $(function() {
             }
             ,cols: [[
                 {type:'numbers'}
-                ,{field:'id', title:'ID', width:90, unresize: true, sort: true}
+                ,{field:'id', title:'ID', width:80, unresize: true, sort: true}
                 ,{field:'username', title:'用户名'}
                 ,{field:'mobile', title:'手机号'}
-                ,{field:'email', title: '邮箱'}
-                ,{field:'roleNames', title: '角色名称', minWidth:50}
-                ,{field:'insertTime', title: '添加时间'}
-                ,{field:'isJob', title:'是否在职',width:90,templet:'#jobTpl'}
-                ,{fixed:'right', title:'操作', width:120,align:'center', toolbar:'#optBar'}
+                ,{field:'email', title: '邮箱',}
+                ,{field:'roleNames', title: '角色名称', }
+                ,{field:'insertTime', title: '添加时间',align:'center'}
+                ,{field:'isJob', title:'是否在职',width:95,align:'center',templet:'#jobTpl'}
+                ,{fixed:'right', title:'操作', width:140,align:'center', toolbar:'#optBar'}
             ]]
             ,  done: function(res, curr, count){
                 //如果是异步请求数据方式，res即为你接口返回的信息。
@@ -105,18 +105,20 @@ function setJobUser(obj,id,nameVersion,checked){
         btn: ['确认','返回'] //按钮
     }, function(){
         $.post("/user/setJobUser",{"id":id,"job":isJob,"version":version},function(data){
-            if(data=="ok"){
-                //回调弹框
-                layer.alert("操作成功！",function(){
-                    layer.closeAll();
-                  //加载load方法
-                    load(obj);
-                });
-            }else{
-                layer.alert(data);//弹出错误提示
-                //加载load方法
-                load(obj);
-            }
+        	if(isLogin(data)){
+	            if(data=="ok"){
+	                //回调弹框
+	                layer.alert("操作成功！",function(){
+	                    layer.closeAll();
+	                  //加载load方法
+	                    load(obj);
+	                });
+	            }else{
+	                layer.alert(data);//弹出错误提示
+	                //加载load方法
+	                load(obj);
+	            }
+        	}
         });
     }, function(){
         layer.closeAll();
@@ -258,43 +260,45 @@ function getUserAndRoles(obj,id) {
     }else{
 	    //回显数据
 	    $.get("/user/getUserAndRoles",{"id":id},function(data){
-	        if(data.msg=="ok" && data.user!=null){
-	            var existRole='';
-	            if(data.user.userRoles !=null ){
-	                $.each(data.user.userRoles, function (index, item) {
-	                    existRole+=item.roleId+',';
-	                });
-	            }
-	            $("#id").val(data.user.id==null?'':data.user.id);
-	            $("#version").val(data.user.version==null?'':data.user.version);
-	            $("#username").val(data.user.username==null?'':data.user.username);
-	            $("#mobile").val(data.user.mobile==null?'':data.user.mobile);
-	            $("#email").val(data.user.email==null?'':data.user.email);
-	            //显示角色数据
-	            $("#roleDiv").empty();
-	            $.each(data.roles, function (index, item) {
-	                var roleInput=$("<input type='checkbox' name='roleId' value="+item.id+" title="+item.roleName+" lay-skin='primary'/>");
-	                var div=$("<div class='layui-unselect layui-form-checkbox' lay-skin='primary'>" +
-	                    "<span>"+item.roleName+"</span><i class='layui-icon'>&#xe626;</i>" +
-	                    "</div>");
-	                if(existRole!='' && existRole.indexOf(item.id)>=0){
-	                     roleInput=$("<input type='checkbox' name='roleId' value="+item.id+" title="+item.roleName+" lay-skin='primary' checked='checked'/>");
-	                     div=$("<div class='layui-unselect layui-form-checkbox  layui-form-checked' lay-skin='primary'>" +
-	                        "<span>"+item.roleName+"</span><i class='layui-icon'>&#xe627;</i>" +
-	                        "</div>");
-	                }
-	                $("#roleDiv").append(roleInput).append(div);
-	            });
-	            openUser(id,"设置用户");
-	            //重新渲染下form表单中的复选框 否则复选框选中效果无效
-	            // layui.form.render();
-	            layui.form.render('checkbox');
-	        }else{
-	            //弹出错误提示
-	            layer.alert(data.msg,function () {
-	                layer.closeAll();
-	            });
-	        }
+	    	if(isLogin(data)){
+		        if(data.msg=="ok" && data.user!=null){
+		            var existRole='';
+		            if(data.user.userRoles !=null ){
+		                $.each(data.user.userRoles, function (index, item) {
+		                    existRole+=item.roleId+',';
+		                });
+		            }
+		            $("#id").val(data.user.id==null?'':data.user.id);
+		            $("#version").val(data.user.version==null?'':data.user.version);
+		            $("#username").val(data.user.username==null?'':data.user.username);
+		            $("#mobile").val(data.user.mobile==null?'':data.user.mobile);
+		            $("#email").val(data.user.email==null?'':data.user.email);
+		            //显示角色数据
+		            $("#roleDiv").empty();
+		            $.each(data.roles, function (index, item) {
+		                var roleInput=$("<input type='checkbox' name='roleId' value="+item.id+" title="+item.roleName+" lay-skin='primary'/>");
+		                var div=$("<div class='layui-unselect layui-form-checkbox' lay-skin='primary'>" +
+		                    "<span>"+item.roleName+"</span><i class='layui-icon'>&#xe626;</i>" +
+		                    "</div>");
+		                if(existRole!='' && existRole.indexOf(item.id)>=0){
+		                     roleInput=$("<input type='checkbox' name='roleId' value="+item.id+" title="+item.roleName+" lay-skin='primary' checked='checked'/>");
+		                     div=$("<div class='layui-unselect layui-form-checkbox  layui-form-checked' lay-skin='primary'>" +
+		                        "<span>"+item.roleName+"</span><i class='layui-icon'>&#xe627;</i>" +
+		                        "</div>");
+		                }
+		                $("#roleDiv").append(roleInput).append(div);
+		            });
+		            openUser(id,"设置用户");
+		            //重新渲染下form表单中的复选框 否则复选框选中效果无效
+		            // layui.form.render();
+		            layui.form.render('checkbox');
+		        }else{
+		            //弹出错误提示
+		            layer.alert(data.msg,function () {
+		                layer.closeAll();
+		            });
+		        }
+	    	}
 	    });
     }
 }
@@ -310,16 +314,18 @@ function delUser(obj,id,name) {
 	            btn: ['确认','返回'] //按钮
 	        }, function(){
 	            $.post("/user/delUser",{"id":id,"version":version},function(data){
-	                if(data=="ok"){
-	                    //回调弹框
-	                    layer.alert("删除成功！",function(){
-	                        layer.closeAll();
-	                        //加载load方法
-	                        load(obj);//自定义
-	                    });
-	                }else{
-	                    layer.alert(data);//弹出错误提示
-	                }
+	            	if(isLogin(data)){
+		                if(data=="ok"){
+		                    //回调弹框
+		                    layer.alert("删除成功！",function(){
+		                        layer.closeAll();
+		                        //加载load方法
+		                        load(obj);//自定义
+		                    });
+		                }else{
+		                    layer.alert(data);//弹出错误提示
+		                }
+	            	}
 	            });
 	        }, function(){
 	            layer.closeAll();

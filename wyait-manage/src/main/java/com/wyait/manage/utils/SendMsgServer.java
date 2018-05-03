@@ -22,6 +22,7 @@ public class SendMsgServer {
 	 */
 	public static String SendMsg(String messageStr, String phoneNum) {
 		//TODO
+		logger.debug("发送信息成功");
 		return "ok";
 	}
 
