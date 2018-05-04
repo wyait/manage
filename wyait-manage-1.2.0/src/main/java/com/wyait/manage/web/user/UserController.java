@@ -170,7 +170,7 @@ public class UserController {
 	@ResponseBody
 	public String delUser(@RequestParam("id") Integer id,
 			@RequestParam("version") Integer version) {
-		logger.debug("删除用户！id:" + id);
+		logger.debug("删除用户！id:" + id + ",version:" + version);
 		String msg = "";
 		try {
 			if (null == id || null == version) {
@@ -184,8 +184,8 @@ public class UserController {
 			}
 			// 删除用户
 			msg = userService.setDelUser(id, 1, existUser.getId(), version);
-			logger.info("删除用户:" + msg + "。userId=" + id + "，操作用户id:"
-					+ existUser.getId());
+			logger.info("删除用户:" + msg + "！userId=" + id + "，操作用户id:"
+					+ existUser.getId() + ",version:" + version);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("删除用户异常！", e);
@@ -206,7 +206,7 @@ public class UserController {
 	@ResponseBody
 	public String recoverUser(@RequestParam("id") Integer id,
 			@RequestParam("version") Integer version) {
-		logger.debug("恢复用户！id:" + id);
+		logger.debug("恢复用户！id:" + id + ",version:" + version);
 		String msg = "";
 		try {
 			User existUser = (User) SecurityUtils.getSubject().getPrincipal();
@@ -219,7 +219,7 @@ public class UserController {
 			// 删除用户
 			msg = userService.setDelUser(id, 0, existUser.getId(), version);
 			logger.info("恢复用户【" + this.getClass().getName() + ".recoverUser】"
-					+ msg + "。用户userId=" + id + "，操作的用户ID=" + existUser.getId());
+					+ msg + "。用户userId=" + id + "，操作的用户ID=" + existUser.getId() + ",version:" + version);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("恢复用户【" + this.getClass().getName()

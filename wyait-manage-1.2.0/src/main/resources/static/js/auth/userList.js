@@ -110,9 +110,11 @@ function setJobUser(obj,id,nameVersion,checked){
                         load(obj);
                     });
                 }else{
-                    layer.alert(data);//弹出错误提示
-                    //加载load方法
-                    load(obj);
+                    layer.alert(data,function(){
+                        layer.closeAll();
+                        //加载load方法
+                        load(obj);//自定义
+                    });
                 }
             }
         });
@@ -161,7 +163,11 @@ function submitAjax(obj,currentUser){
                         }
                     });
                 } else {
-                    layer.alert(data);
+                    layer.alert(data,function(){
+                        layer.closeAll();
+                        //加载load方法
+                        load(obj);//自定义
+                    });
                 }
             }
         },
@@ -313,7 +319,11 @@ function delUser(obj,id,name) {
                                 load(obj);//自定义
                             });
                         }else{
-                            layer.alert(data);//弹出错误提示
+                            layer.alert(data,function(){
+                                layer.closeAll();
+                                //加载load方法
+                                load(obj);//自定义
+                            });
                         }
                     }
                 });
@@ -341,7 +351,11 @@ function recoverUser(obj,id) {
                             load(obj);//自定义
                         });
                     }else{
-                        layer.alert(data);//弹出错误提示
+                        layer.alert(data,function(){
+                            layer.closeAll();
+                            //加载load方法
+                            load(obj);//自定义
+                        });
                     }
                 }
             });
