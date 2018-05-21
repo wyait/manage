@@ -22,7 +22,7 @@ public class HttpResult {
 	public HttpResult() {
 
 	}
-
+	
 	public HttpResult(Integer code, String body) {
 		super();
 		this.code = code;

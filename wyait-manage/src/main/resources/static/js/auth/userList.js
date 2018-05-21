@@ -10,6 +10,7 @@ $(function() {
         tableIns=table.render({
             elem: '#uesrList'
             ,url:'/user/getUsers'
+        	,method: 'post' //默认：get请求
             ,cellMinWidth: 80
             ,page: true,
             request: {
@@ -114,7 +115,7 @@ function setJobUser(obj,id,nameVersion,checked){
 	                    load(obj);
 	                });
 	            }else{
-	                layer.alert(data,function(){
+	            	layer.alert(data,function(){
                     	layer.closeAll();
                     	//加载load方法
                     	load(obj);//自定义
