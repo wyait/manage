@@ -10,6 +10,7 @@ $(function() {
         tableIns=table.render({
             elem: '#uesrList'
             ,url:'/user/getUsers'
+            ,method: 'post' //默认：get请求
             ,cellMinWidth: 80
             ,page: true,
             request: {

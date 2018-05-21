@@ -18,6 +18,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.subject.Subject;
@@ -71,6 +72,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/getUsers", method = RequestMethod.GET)
 	@ResponseBody
+	@RequiresPermissions(value = "usermanage")
 	public PageDataResult getUsers(@RequestParam("page") Integer page,
 			@RequestParam("limit") Integer limit, UserSearchDTO userSearch) {
 		logger.debug("分页查询用户列表！搜索条件：userSearch：" + userSearch + ",page:" + page
