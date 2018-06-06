@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <!--head部分-->
-<head th:include="layout :: htmlhead" th:with="title='后台管理'">
+<head th:include="layout :: htmlhead" th:with="title='wyait后台管理'">
 </head>
 <body class="layui-layout-body">
     <div class="layui-layout layui-layout-admin">
@@ -20,10 +20,20 @@
                             <a href="http://blog.51cto.com/wyait"><span style="font-weight: bold;font-size:28px;">后台管理系统</span></a></h1>
                         <p><font style="font-size: 18px;">博客链接：</font><a href="http://blog.51cto.com/wyait"><span style="font-weight: bold;font-size:20px;color:blue">http://blog.51cto.com/wyait</span></a>
                         </p>
+                        <p>
+                            普通请求异常：
+                            <a href="/error/getError">点击</a>
+                        </p>
+                        <p>
+                            ajax异步请求异常：
+                            <a href="javascript:void(0)" onclick="ajaxError()">点击</a>
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
+
+        <script type="text/javascript" src="/js/error.js"></script>
         <!--底部-->
         <div th:replace="fragments/footer :: footer"></div>
     </div>

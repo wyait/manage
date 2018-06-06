@@ -242,8 +242,30 @@ public class ShiroConfig {
 		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
 		//sessionManager.setCacheManager(ehCacheManager());
 		sessionManager.setSessionDAO(enterCacheSessionDAO());
+		sessionManager.setSessionIdCookie(sessionIdCookie());
 		return sessionManager;
 	}
+
+	/**
+	 *
+	 * @描述：自定义cookie中session名称等配置
+	 * @创建人：wyait
+	 * @创建时间：2018年5月8日 下午1:26:23
+	 * @return
+	 */
+	@Bean
+	public SimpleCookie sessionIdCookie() {
+		//DefaultSecurityManager
+		SimpleCookie simpleCookie = new SimpleCookie();
+		//sessionManager.setCacheManager(ehCacheManager());
+		//如果在Cookie中设置了"HttpOnly"属性，那么通过程序(JS脚本、Applet等)将无法读取到Cookie信息，这样能有效的防止XSS攻击。
+		simpleCookie.setHttpOnly(true);
+		simpleCookie.setName("SHRIOSESSIONID");
+		//单位秒
+		simpleCookie.setMaxAge(86400);
+		return simpleCookie;
+	}
+
 	/**
 	 *
 	 * @描述：kickoutSessionFilter同一个用户多设备登录限制

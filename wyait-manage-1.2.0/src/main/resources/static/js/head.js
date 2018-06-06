@@ -1,10 +1,10 @@
 /**
- * 利易达菜单
+ * 菜单
  * */
 //获取路径uri
 var pathUri=window.location.href;
 
-console.log("pathUrl:"+pathUri);
+// console.log("pathUrl:"+pathUri);
 $(function(){
     layui.use('element', function(){
         var element = layui.element;

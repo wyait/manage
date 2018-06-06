@@ -1,9 +1,9 @@
 /**
  * 
- * @项目名称：wupao-mbweb
- * @文件名称：wupao-utils
+ * @项目名称：wyait-manage
+ * @文件名称：data-utils
  * @类描述：js时间转换工具类
- * @创建时间：2015年12月23日
+ * @创建时间：2018年5月24日17:13:58
  */
 var DateUtils = {
 

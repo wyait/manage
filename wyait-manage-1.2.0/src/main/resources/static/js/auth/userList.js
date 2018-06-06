@@ -1,5 +1,5 @@
 /**
- * 权限列表
+ * 用户管理
  */
 var pageCurr;
 $(function() {

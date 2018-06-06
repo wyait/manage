@@ -1,5 +1,5 @@
 /**
- * 权限管理
+ * 角色管理
  */
 $(function() {
     $("#roleListLi").click(function () {

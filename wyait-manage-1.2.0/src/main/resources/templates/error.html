@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='wyait后台管理'">
     <meta charset="UTF-8"></meta>
-    <title>Title</title>
+    <title th:text="${result.status}"></title>
 </head>
 <body>
 <h1>出错了</h1>
+<p><span th:text="${result.message}"></span>（<span th:text="${result.data}"></span>）</p>
 </body>
 </html>

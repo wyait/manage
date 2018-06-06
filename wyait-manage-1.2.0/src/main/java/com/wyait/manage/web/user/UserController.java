@@ -70,7 +70,7 @@ public class UserController {
 	 * 分页查询用户列表
 	 * @return ok/fail
 	 */
-	@RequestMapping(value = "/getUsers", method = RequestMethod.GET)
+	@RequestMapping(value = "/getUsers", method = RequestMethod.POST)
 	@ResponseBody
 	@RequiresPermissions(value = "usermanage")
 	public PageDataResult getUsers(@RequestParam("page") Integer page,
