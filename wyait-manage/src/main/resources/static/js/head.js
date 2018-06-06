@@ -1,5 +1,5 @@
 /**
- * 利易达菜单
+ * 菜单
  * */
 //获取路径uri
 var pathUri=window.location.href;

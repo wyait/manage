@@ -1,5 +1,5 @@
 /**
- * 权限列表
+ * 角色列表
  */
 $(function() {
     layui.use('table', function(){

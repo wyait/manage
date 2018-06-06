@@ -95,6 +95,27 @@ function isLogin(result){
 }
 
 /**
+ * 针对不同的错误可结合业务自定义处理方式
+ * @param result
+ * @returns {Boolean}
+ */
+function isError(result){
+	var flag=true;
+    if(result && result.status){
+    	flag=false;
+    	if(result.status == '-1' || result.status=='-101' || result.status=='400' || result.status=='404' || result.status=='500'){
+    		layer.alert(result.data);
+    	}else if(result.status=='403'){
+    		layer.alert(result.data,function(){
+    			//跳转到未授权界面
+    			window.location.href="/403";
+    		});
+    	}
+    }
+    return flag;//返回true
+}
+
+/**
  * 获取get请求参数
  * @param name
  * @returns

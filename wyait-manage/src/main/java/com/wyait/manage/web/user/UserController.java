@@ -27,6 +27,7 @@ import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -78,13 +79,14 @@ public class UserController {
 	 * 分页查询用户列表
 	 * @return ok/fail
 	 */
-	@RequestMapping(value = "/getUsers", method = RequestMethod.GET)
+	@RequestMapping(value = "/getUsers", method = RequestMethod.POST)
 	@ResponseBody
 	@RequiresPermissions(value="usermanage")
 	public PageDataResult getUsers(@RequestParam("page") Integer page,
 			@RequestParam("limit") Integer limit, UserSearchDTO userSearch) {
 		logger.debug("分页查询用户列表！搜索条件：userSearch：" + userSearch + ",page:" + page
 				+ ",每页记录数量limit:" + limit);
+//		ErrorController
 		PageDataResult pdr = new PageDataResult();
 		try {
 			if (null == page) {
