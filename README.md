@@ -14,6 +14,12 @@ spring boot + mybatis + shiro + layui 搭建的后台权限管理系统
 
 5. 更新用户操作，通过version字段来保证数据一致；
 6. 新增通过拦截器实现动态更新用户信息（同步更新在线用户信息）；
-7. 新增登录成功后默认页面home.html；
+7. 新增登录成功后默认页面home.html；  
+
+【博客】[springboot + shiro 权限注解、统一异常处理、请求乱码解决 ：http://blog.51cto.com/wyait/2125708](http://blog.51cto.com/wyait/2125708)；  
+
+8. 新增shiro权限注解；  
+9. 请求乱码问题解决；  
+10. 统一异常处理。
 
 **wyait.sql**: sql数据库语句源码
