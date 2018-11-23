@@ -23,3 +23,5 @@ spring boot + mybatis + shiro + layui 搭建的后台权限管理系统
 10. 统一异常处理。
 
 **wyait.sql**: sql数据库语句源码
+
+**2018-11-23**:spring boot高版本中，关于redis、druid、自定义error配置都有更新变动，大家更新版本的时候注意！！！
