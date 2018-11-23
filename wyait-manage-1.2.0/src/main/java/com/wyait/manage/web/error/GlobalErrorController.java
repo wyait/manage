@@ -115,16 +115,16 @@ public class GlobalErrorController extends AbstractErrorController {
 	private ExceptionEnum getMessage(HttpStatus httpStatus) {
 		if (httpStatus.is4xxClientError()) {
 			// 4开头的错误状态码
-			if ("400".equals(httpStatus.BAD_REQUEST)) {
+			if (400==httpStatus.BAD_REQUEST.value()) {
 				return ExceptionEnum.BAD_REQUEST;
-			} else if ("403".equals(httpStatus.FORBIDDEN)) {
+			} else if (403==httpStatus.FORBIDDEN.value()) {
 				return ExceptionEnum.BAD_REQUEST;
-			} else if ("404".equals(httpStatus.NOT_FOUND)) {
+			} else if (404==httpStatus.NOT_FOUND.value()) {
 				return ExceptionEnum.NOT_FOUND;
 			}
 		} else if (httpStatus.is5xxServerError()) {
 			// 5开头的错误状态码
-			if ("500".equals(httpStatus.INTERNAL_SERVER_ERROR)) {
+			if (500==httpStatus.INTERNAL_SERVER_ERROR.value()) {
 				return ExceptionEnum.SERVER_EPT;
 			}
 		}
