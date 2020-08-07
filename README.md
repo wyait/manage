@@ -1,3 +1,11 @@
+# admin
+springboot 2.1 + shiro + redis + layUI 后台权限管理系统
+
+【一直以来，欠大家的升级版，终于来了】
+springboot 2.1版本
+
+wyait-admin ：【博客】spring boot 2.1 + mybatis + shiro + layui 搭建的后台权限管理系统；https://www.toutiao.com/i6857783244210110983/；
+
 # manage
 spring boot 1.5 + mybatis + shiro + layui 搭建的后台权限管理系统  
 
